@@ -1,0 +1,5 @@
+*.o
+*.d
+.objs/
+main.cpp
+main

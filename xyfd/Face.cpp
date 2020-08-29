@@ -5,24 +5,23 @@
  *   Xiasu Yang <xiasu.yang@sorbonne-universite.fr>
  */
 
-#include "Face.h"
-#include "Cell.h"
+#include "Grid.h"
 #include <iostream>
 #include <vector>
 #include <cmath>
 
 namespace xyfd {
-    void Face::_setLength() {
+    void Grid::Face::_setLength() {
         length_ = head_->getDistanceTo(*tail_);
     }
 
-    void Face::_setCenter() {
+    void Grid::Face::_setCenter() {
         center_.push_back(0.5*(head_->getX()[0] + tail_->getX()[0]));
         center_.push_back(0.5*(head_->getX()[1] + tail_->getX()[1]));
     }
 
     // constructor without master cell :
-    Face::Face(int id, Node* head, Node* tail) {
+    Grid::Face::Face(int id, Grid::Node* head, Grid::Node* tail) {
         id_ = id;
         head_ = head;
         tail_ = tail;
@@ -33,7 +32,7 @@ namespace xyfd {
     }
 
     // constructor with master & tool cells :
-    Face::Face(int id, Node* head, Node* tail, Cell* master, Cell* tool) {
+    Grid::Face::Face(int id, Grid::Node* head, Grid::Node* tail, Grid::Cell* master, Grid::Cell* tool) {
         id_ = id;
         head_ = head;
         tail_ = tail;
@@ -43,31 +42,31 @@ namespace xyfd {
         _setCenter();
     }
 
-    int Face::getId() const {
+    int Grid::Face::getId() const {
         return id_;
     }
 
-    Node* Face::getHead() const {
+    Grid::Node* Grid::Face::getHead() const {
         return head_;
     }
     
-    Node* Face::getTail() const {
+    Grid::Node* Grid::Face::getTail() const {
         return tail_;
     }
 
-    Cell* Face::getMaster() const {
+    Grid::Cell* Grid::Face::getMaster() const {
         return master_;
     }
 
-    Cell* Face::getTool() const {
+    Grid::Cell* Grid::Face::getTool() const {
         return tool_;
     }
 
-    double Face::getLength() const {
+    double Grid::Face::getLength() const {
         return length_;
     }
 
-    std::vector<double> Face::getCenter() const {
+    std::vector<double> Grid::Face::getCenter() const {
         return center_;
     }
 }

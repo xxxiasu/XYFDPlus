@@ -5,18 +5,17 @@
  *   Xiasu Yang <xiasu.yang@sorbonne-universite.fr>
  */
 
-#include "Cell.h"
-#include "Face.h"
+#include "Grid.h"
 #include <iostream>
 #include <vector>
 #include <cmath>
 
 namespace xyfd {
-    void Cell::_setType() {
+    void Grid::Cell::_setType() {
         type_ = (int)nodes_.size();
     }
 
-    void Cell::_setArea() {
+    void Grid::Cell::_setArea() {
         area_ = 0.;
         for (int i = 0; i < type_; i++) {
             int j = (i+1)%type_;
@@ -26,7 +25,7 @@ namespace xyfd {
         area_ = 0.5*std::abs(area_);
     }
 
-    void Cell::_setCenter() {
+    void Grid::Cell::_setCenter() {
         center_ = {0., 0.};
         for (const auto& node : nodes_) {
             center_[0] += node->getX()[0];
@@ -36,7 +35,7 @@ namespace xyfd {
         center_[1] /= type_;
     }
 
-    void Cell::_setNeighbors() {
+    void Grid::Cell::_setNeighbors() {
         neighbors_.resize(type_, nullptr);
         for (int i = 0; i < type_; i++) {
             if      (faces_[i]->getMaster() && !faces_[i]->getTool()) {
@@ -46,7 +45,7 @@ namespace xyfd {
                 neighbors_[i] = faces_[i]->getTool();
             }
             else if (!faces_[i]->getTool() && !faces_[i]->getMaster()) {
-                std::cout << "Master and tool cells not found for Face #" << faces_[i]->getId() << std::endl;
+                std::cout << "Master and tool cells not found for Grid::Face #" << faces_[i]->getId() << std::endl;
             }
             else if (faces_[i]->getMaster()->getId() == id_) {
                 neighbors_[i] = faces_[i]->getTool();
@@ -57,7 +56,7 @@ namespace xyfd {
         }
     }
 
-    Cell::Cell(int id, std::vector<Node*> nodes, std::vector<Face*> faces) {
+    Grid::Cell::Cell(int id, std::vector<Grid::Node*> nodes, std::vector<Grid::Face*> faces) {
         id_ = id;
         nodes_ = nodes;
         faces_ = faces;
@@ -67,26 +66,26 @@ namespace xyfd {
         _setNeighbors();
     }
 
-    int Cell::getId() const {
+    int Grid::Cell::getId() const {
         return id_;
     }
 
-    int Cell::getType() const {
+    int Grid::Cell::getType() const {
         return type_;
     }
 
-    std::vector<Node *> Cell::getNodes() const {
+    std::vector<Grid::Node *> Grid::Cell::getNodes() const {
         return nodes_;
     }
 
-    std::vector<Face *> Cell::getFaces() const {
+    std::vector<Grid::Face *> Grid::Cell::getFaces() const {
         return faces_;
     }
 
-    double Cell::getArea() const {
+    double Grid::Cell::getArea() const {
         return area_;
     }
-    std::vector<double> Cell::getCenter() const {
+    std::vector<double> Grid::Cell::getCenter() const {
         return center_;
     }
 }

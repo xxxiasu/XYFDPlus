@@ -66,6 +66,10 @@ namespace xyfd {
         for (const auto& cell : cellsInGrid) {
             cell->_setNeighbors();
         }
+
+        for (const auto& face : facesInGrid) {
+            face->_setNormal();
+        }
     }
 
     Grid::Grid(const Link& link) {

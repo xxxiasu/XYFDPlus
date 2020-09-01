@@ -39,11 +39,11 @@ namespace xyfd {
             Cell *tool_;
             double length_;
             std::vector<double> center_;
-            // std::vector<double> normal_;
+            std::vector<double> normal_;
 
             void _setLength();
             void _setCenter();
-            // void _setNormal();
+            void _setNormal();
 
         public:
             Face(int id, Node *head, Node *tail);
@@ -55,7 +55,7 @@ namespace xyfd {
             Cell *getTool() const;
             double getLength() const;
             std::vector<double> getCenter() const;
-            // std::vector<double> getNormal() const;
+            std::vector<double> getNormal() const;
 
             ~Face() {}
         };

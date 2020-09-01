@@ -8,14 +8,17 @@
 
 #pragma once
 
+#include "Link.h"
 #include <vector>
 
 namespace xyfd {
     class Grid {
     private:
-        /* data */
+        void _setNodesInGrid(const Link& link);
+        void _setFacesCellsInGrid(const Link& link);
     public:
         class Node {
+        friend class Grid;
         private:
             int id_;
             std::vector<double> x_;
@@ -30,6 +33,7 @@ namespace xyfd {
         };
         class Cell; // forward declaration
         class Face {
+        friend class Grid;
         private:
             int id_;
             Node *head_;
@@ -58,6 +62,7 @@ namespace xyfd {
             ~Face() {}
         };
         class Cell {
+        friend class Grid;
         private:
             int id_;
             int type_;
@@ -80,12 +85,17 @@ namespace xyfd {
             std::vector<Face *> getFaces() const;
             double getArea() const;
             std::vector<double> getCenter() const;
+            std::vector<Cell *> getNeighbors() const;
 
             ~Cell() {}
         };
 
-        Grid(/* args */);
-        ~Grid();
+        std::vector<Node*> nodesInGrid;
+        std::vector<Face*> facesInGrid;
+        std::vector<Cell*> cellsInGrid;
+
+        Grid(const Link& link);
+        ~Grid() {}
     };
 
 } // namespace xyfd

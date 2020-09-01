@@ -36,22 +36,13 @@ namespace xyfd {
     }
 
     void Grid::Cell::_setNeighbors() {
-        neighbors_.resize(type_, nullptr);
-        for (int i = 0; i < type_; i++) {
-            if      (faces_[i]->getMaster() && !faces_[i]->getTool()) {
-                neighbors_[i] = faces_[i]->getMaster();
+        neighbors_ = {};
+        for (const auto& face : faces_) {
+            if (face->master_ == this && face->tool_) {
+                neighbors_.push_back(face->tool_);
             }
-            else if (faces_[i]->getTool() && !faces_[i]->getMaster()) {
-                neighbors_[i] = faces_[i]->getTool();
-            }
-            else if (!faces_[i]->getTool() && !faces_[i]->getMaster()) {
-                std::cout << "Master and tool cells not found for Grid::Face #" << faces_[i]->getId() << std::endl;
-            }
-            else if (faces_[i]->getMaster()->getId() == id_) {
-                neighbors_[i] = faces_[i]->getTool();
-            }
-            else {
-                neighbors_[i] = faces_[i]->getMaster();
+            else if (face->tool_ == this && face->master_) {
+                neighbors_.push_back(face->master_);
             }
         }
     }
@@ -63,7 +54,6 @@ namespace xyfd {
         _setType();
         _setArea();
         _setCenter();
-        _setNeighbors();
     }
 
     int Grid::Cell::getId() const {
@@ -87,5 +77,9 @@ namespace xyfd {
     }
     std::vector<double> Grid::Cell::getCenter() const {
         return center_;
+    }
+
+    std::vector<Grid::Cell *> Grid::Cell::getNeighbors() const {
+        return neighbors_;
     }
 }

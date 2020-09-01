@@ -14,9 +14,6 @@
 namespace xyfd {
     class Grid {
     private:
-        void _setNodesInGrid(const Link& link);
-        void _setFacesCellsInGrid(const Link& link);
-    public:
         class Node {
         friend class Grid;
         private:
@@ -47,6 +44,7 @@ namespace xyfd {
             void _setLength();
             void _setCenter();
             // void _setNormal();
+
         public:
             Face(int id, Node *head, Node *tail);
             Face(int id, Node *head, Node *tail, Cell *master, Cell *tool);
@@ -90,6 +88,10 @@ namespace xyfd {
             ~Cell() {}
         };
 
+        void _setNodesInGrid(const Link& link);
+        void _setFacesCellsInGrid(const Link& link);
+
+    public:
         std::vector<Node*> nodesInGrid;
         std::vector<Face*> facesInGrid;
         std::vector<Cell*> cellsInGrid;

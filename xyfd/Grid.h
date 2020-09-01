@@ -9,6 +9,7 @@
 #pragma once
 
 #include "Link.h"
+#include "LaminarV.h"
 #include <vector>
 
 namespace xyfd {
@@ -76,6 +77,7 @@ namespace xyfd {
             void _setNeighbors();
 
         public:
+            LaminarV var;
             Cell(int id, std::vector<Node *> nodes, std::vector<Face *> faces);
             int getId() const;
             int getType() const;

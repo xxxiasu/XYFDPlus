@@ -1,5 +1,5 @@
 EXE = main
-OBJS = main.o xyfd/Node.o xyfd/Face.o xyfd/Cell.o xyfd/Link.o xyfd/LaminarV.o xyfd/Grid.o
+OBJS = main.o xyfd/*.o
 CLEAN_RM =
 
 include generic.mk

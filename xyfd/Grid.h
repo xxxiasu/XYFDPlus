@@ -13,6 +13,7 @@
 #include <vector>
 
 namespace xyfd {
+    template<typename T>
     class Grid {
     private:
         void _setNodesInGrid(const Link& link);
@@ -81,7 +82,7 @@ namespace xyfd {
             void _setNeighbors();
 
         public:
-            LaminarV var;
+            T var;
             Cell(int id, std::vector<Node *> nodes, std::vector<Face *> faces);
             int getId() const;
             int getType() const;
@@ -103,3 +104,10 @@ namespace xyfd {
     };
 
 }
+
+// Since Grid is a template class, all implementations must be visible to this Grid.h file.
+// All *.hpp files below are mere extensions of the current header file.
+#include "Node.hpp"
+#include "Face.hpp"
+#include "Cell.hpp"
+#include "Grid.hpp"

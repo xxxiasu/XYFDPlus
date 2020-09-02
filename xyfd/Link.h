@@ -23,4 +23,4 @@ namespace xyfd {
         vector<vector<int>> getNodeIdOfCells() const;
         ~Link() {}
     };
-} // namespace xyfd
+}

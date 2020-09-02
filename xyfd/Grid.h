@@ -15,6 +15,10 @@
 namespace xyfd {
     class Grid {
     private:
+        void _setNodesInGrid(const Link& link);
+        void _setFacesCellsInGrid(const Link& link);
+
+    public:        
         class Node {
         friend class Grid;
         private:
@@ -90,10 +94,6 @@ namespace xyfd {
             ~Cell() {}
         };
 
-        void _setNodesInGrid(const Link& link);
-        void _setFacesCellsInGrid(const Link& link);
-
-    public:
         std::vector<Node*> nodesInGrid;
         std::vector<Face*> facesInGrid;
         std::vector<Cell*> cellsInGrid;
@@ -102,4 +102,4 @@ namespace xyfd {
         ~Grid() {}
     };
 
-} // namespace xyfd
+}

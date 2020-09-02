@@ -8,9 +8,11 @@
 #include "Grid.h"
 #include <iostream>
 #include <vector>
+#include <array>
 #include <cmath>
 #include <Eigen/Dense>
 
+using StdArray2d = std::array<double, 2>;
 using namespace Eigen;
 
 namespace xyfd {
@@ -21,8 +23,8 @@ namespace xyfd {
 
     template<typename T>
     void Grid<T>::Face::_setCenter() {
-        center_.push_back(0.5*(head_->getX()[0] + tail_->getX()[0]));
-        center_.push_back(0.5*(head_->getX()[1] + tail_->getX()[1]));
+        center_[0] = 0.5*(head_->getX()[0] + tail_->getX()[0]);
+        center_[1] = 0.5*(head_->getX()[1] + tail_->getX()[1]);
     }
 
     template<typename T>
@@ -98,12 +100,12 @@ namespace xyfd {
     }
 
     template<typename T>
-    std::vector<double> Grid<T>::Face::getCenter() const {
+    StdArray2d Grid<T>::Face::getCenter() const {
         return center_;
     }
 
     template<typename T>
-    std::vector<double> Grid<T>::Face::getNormal() const {
+    StdArray2d Grid<T>::Face::getNormal() const {
         return normal_;
     }
 }

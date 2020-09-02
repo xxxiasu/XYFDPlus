@@ -10,6 +10,8 @@
 #include <vector>
 #include <array>
 
+using StdArray2d = std::array<double, 2>;
+
 namespace xyfd {
     class LaminarV {
     public:
@@ -17,9 +19,9 @@ namespace xyfd {
         double p;
         double t;
         double e;
-        std::array<double, 2> v;
+        StdArray2d v;
 
-        LaminarV(double objR = 0., double objP = 0., double objT = 0., double objE = 0., std::array<double, 2> objV = {0., 0.});
+        LaminarV(double objR = 0., double objP = 0., double objT = 0., double objE = 0., StdArray2d objV = {0., 0.});
         LaminarV(const LaminarV &obj);
         ~LaminarV() {}
         LaminarV operator+(const LaminarV &obj) const;

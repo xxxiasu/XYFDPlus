@@ -10,8 +10,10 @@
 #include <vector>
 #include <array>
 
+using StdArray2d = std::array<double, 2>;
+
 namespace xyfd {
-    LaminarV::LaminarV(double objR, double objP, double objT, double objE, std::array<double, 2> objV) {
+    LaminarV::LaminarV(double objR, double objP, double objT, double objE, StdArray2d objV) {
         r = objR;
         p = objP;
         t = objT;

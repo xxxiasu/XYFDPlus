@@ -11,6 +11,9 @@
 #include "Link.h"
 #include "LaminarV.h"
 #include <vector>
+#include <array>
+
+using StdArray2d = std::array<double, 2>;
 
 namespace xyfd {
     template<typename T>
@@ -24,12 +27,12 @@ namespace xyfd {
         friend class Grid;
         private:
             int id_;
-            std::vector<double> x_;
+            StdArray2d x_;
 
         public:
-            Node(int id, std::vector<double> x);
+            Node(int id, StdArray2d x);
             int getId() const;
-            std::vector<double> getX() const;
+            StdArray2d getX() const;
             double getDistanceTo(const Node &other) const;
 
             ~Node() {}
@@ -44,8 +47,8 @@ namespace xyfd {
             Cell *master_;
             Cell *tool_;
             double length_;
-            std::vector<double> center_;
-            std::vector<double> normal_;
+            StdArray2d center_;
+            StdArray2d normal_;
 
             void _setLength();
             void _setCenter();
@@ -60,8 +63,8 @@ namespace xyfd {
             Cell *getMaster() const;
             Cell *getTool() const;
             double getLength() const;
-            std::vector<double> getCenter() const;
-            std::vector<double> getNormal() const;
+            StdArray2d getCenter() const;
+            StdArray2d getNormal() const;
 
             ~Face() {}
         };
@@ -74,7 +77,7 @@ namespace xyfd {
             std::vector<Face *> faces_;
             std::vector<Cell *> neighbors_;
             double area_;
-            std::vector<double> center_;
+            StdArray2d center_;
 
             void _setType();
             void _setArea();
@@ -89,7 +92,7 @@ namespace xyfd {
             std::vector<Node *> getNodes() const;
             std::vector<Face *> getFaces() const;
             double getArea() const;
-            std::vector<double> getCenter() const;
+            StdArray2d getCenter() const;
             std::vector<Cell *> getNeighbors() const;
 
             ~Cell() {}

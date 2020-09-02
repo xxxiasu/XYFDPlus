@@ -8,7 +8,10 @@
 #include "Grid.h"
 #include <iostream>
 #include <vector>
+#include <array>
 #include <cmath>
+
+using StdArray2d = std::array<double, 2>;
 
 namespace xyfd {
     template<typename T>
@@ -87,7 +90,7 @@ namespace xyfd {
     }
 
     template<typename T>
-    std::vector<double> Grid<T>::Cell::getCenter() const {
+    StdArray2d Grid<T>::Cell::getCenter() const {
         return center_;
     }
 

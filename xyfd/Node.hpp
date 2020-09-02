@@ -8,21 +8,14 @@
 #include "Grid.h"
 #include <iostream>
 #include <vector>
+#include <array>
 #include <cmath>
+
+using StdArray2d = std::array<double, 2>;
 
 namespace xyfd {
     template<typename T>
-    Grid<T>::Node::Node(int id, std::vector<double> x) {
-        id_ = id;
-        if (x.size() == 2) {
-            x_ = x;
-        }
-        else {
-            std::cout << "xyfd::Node constructor error : Node dimension mismatch ! "
-                          "x_ set to zero vector [0., 0.] at Node #" << id_ << std::endl;
-            x_ = {0., 0.};
-        }
-    }
+    Grid<T>::Node::Node(int id, StdArray2d x) : id_(id), x_(x) {}
 
     template<typename T>
     int Grid<T>::Node::getId() const {
@@ -30,23 +23,16 @@ namespace xyfd {
     }
 
     template<typename T>
-    std::vector<double> Grid<T>::Node::getX() const {
+    StdArray2d Grid<T>::Node::getX() const {
         return x_;
     }
 
     template<typename T>
     double Grid<T>::Node::getDistanceTo(const Grid<T>::Node& other) const {
-        if (x_.size() == other.getX().size()) {
-            double accum = 0.;
-            for (int i = 0; i <= (int)x_.size()-1; i++) {
-                accum += std::pow((x_[i] - other.getX()[i]), 2);
-            }
-            return std::sqrt(accum);
+        double accum = 0.;
+        for (int i = 0; i < 2; i++) {
+            accum += std::pow((x_[i] - other.getX()[i]), 2);
         }
-        else {
-            std::cout << "xyfd::Node getDistanceTo() error : Node dimension mismatch ! "
-                         "Output set to zero." << std::endl;
-            return 0.;
-        }
+        return std::sqrt(accum);
     }
 }

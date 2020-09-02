@@ -7,16 +7,18 @@
 
 #include "Link.h"
 #include <vector>
+#include <array>
 
 using std::vector;
+using StdArray2d = std::array<double, 2>;
 
 namespace xyfd {
-    Link::Link(vector<vector<double>> xOfNodes, vector<vector<int>> nodeIdOfCells) {
+    Link::Link(vector<StdArray2d> xOfNodes, vector<vector<int>> nodeIdOfCells) {
         xOfNodes_ = xOfNodes;
         nodeIdOfCells_ = nodeIdOfCells;
     }
 
-    vector<vector<double>> Link::getXOfNodes() const {
+    vector<StdArray2d> Link::getXOfNodes() const {
         return xOfNodes_;
     }
 

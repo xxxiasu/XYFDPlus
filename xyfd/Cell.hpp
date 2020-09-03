@@ -98,4 +98,9 @@ namespace xyfd {
     std::vector<typename Grid<T>::Cell *> Grid<T>::Cell::getNeighbors() const {
         return neighbors_;
     }
+
+    template<typename T>
+    Grid<T>::Cell::~Cell() {
+        std::cout << "Cell # " << id_ << " deleted !" << std::endl;
+    }
 }

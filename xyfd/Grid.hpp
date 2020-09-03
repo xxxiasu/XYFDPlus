@@ -79,4 +79,31 @@ namespace xyfd {
         _setNodesInGrid(link);
         _setFacesCellsInGrid(link);
     }
+
+    template<typename T>
+    Grid<T>::~Grid() {
+        std::cout << "Deleting Grid Object ..." << std::endl;
+        for (auto& node : nodesInGrid) {
+            if (node) {
+                delete node;
+                node = nullptr;
+            }
+        }
+        nodesInGrid.clear();
+        for (auto& face : facesInGrid) {
+            if (face) {
+                delete face;
+                face = nullptr;
+            }
+        }
+        facesInGrid.clear();
+        for (auto& cell : cellsInGrid) {
+            if (cell) {
+                delete cell;
+                cell = nullptr;
+            }
+        }
+        cellsInGrid.clear();
+        std::cout << "All objects in Grid deleted !" << std::endl;
+    }
 }

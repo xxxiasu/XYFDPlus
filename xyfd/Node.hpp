@@ -35,4 +35,9 @@ namespace xyfd {
         }
         return std::sqrt(accum);
     }
+
+    template<typename T>
+    Grid<T>::Node::~Node() {
+        std::cout << "Node # " << id_ << " deleted !" << std::endl;
+    }
 }

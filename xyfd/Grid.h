@@ -35,7 +35,7 @@ namespace xyfd {
             StdArray2d getX() const;
             double getDistanceTo(const Node &other) const;
 
-            ~Node() {}
+            ~Node();
         };
         class Cell; // forward declaration
         class Face {
@@ -66,7 +66,7 @@ namespace xyfd {
             StdArray2d getCenter() const;
             StdArray2d getNormal() const;
 
-            ~Face() {}
+            ~Face();
         };
         class Cell {
         friend class Grid;
@@ -95,7 +95,7 @@ namespace xyfd {
             StdArray2d getCenter() const;
             std::vector<Cell *> getNeighbors() const;
 
-            ~Cell() {}
+            ~Cell();
         };
 
         std::vector<Node*> nodesInGrid;
@@ -103,7 +103,7 @@ namespace xyfd {
         std::vector<Cell*> cellsInGrid;
 
         Grid(const Link& link);
-        ~Grid() {}
+        ~Grid();
     };
 
 }

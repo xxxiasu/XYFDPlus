@@ -108,4 +108,9 @@ namespace xyfd {
     StdArray2d Grid<T>::Face::getNormal() const {
         return normal_;
     }
+
+    template<typename T>
+    Grid<T>::Face::~Face() {
+        std::cout << "Face # " << id_ << " deleted !" << std::endl;
+    }
 }

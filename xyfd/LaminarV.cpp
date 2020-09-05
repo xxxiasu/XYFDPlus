@@ -71,8 +71,12 @@ namespace xyfd {
         return *this;
     }
 
+    bool LaminarV::operator==(const LaminarV &obj) const {
+        return r == obj.r && p == obj.p && t == obj.t && e == obj.e && v[0] == obj.v[0] && v[1] == obj.v[1];
+    }
+
     bool LaminarV::operator=(const LaminarV &obj) {
-        if (this == &obj) return 1; // avoid self-assignment
+        if (*this == obj) return 1; // avoid self-assignment
         r = obj.r;
         p = obj.p;
         t = obj.t;

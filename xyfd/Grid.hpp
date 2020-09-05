@@ -1,6 +1,5 @@
 /**
  * Grid.hpp : xyfd class for representing a 2D unstructured grid.
- * (adjacency list implementation)
  * 
  * @author
  *   Xiasu Yang <xiasu.yang@sorbonne-universite.fr>
@@ -17,8 +16,7 @@ namespace xyfd {
         nodesInGrid = {};
         int nNodes = (int)link.getXOfNodes().size();
         for (int i = 0; i < nNodes; i++) {
-            Node* node = new Node(i, link.getXOfNodes()[i]);
-            nodesInGrid.push_back(node);
+            nodesInGrid.emplace_back(i, link.getXOfNodes()[i]);
         }
     }
 
@@ -35,42 +33,43 @@ namespace xyfd {
         for (int i = 0; i < nCells; i++) {
             int nNodesOfCell = (int)link.getNodeIdOfCells()[i].size();
             std::vector<Node*> nodesInCell;
+            std::vector<Face*> facesInCell = {};
 
             for (int j = 0; j < nNodesOfCell; j++) {
                 int jId = link.getNodeIdOfCells()[i][j];
-                nodesInCell.push_back(nodesInGrid[jId]);
+                nodesInCell.push_back(&nodesInGrid[jId]);
             }
-            Cell* cell = new Cell(i, nodesInCell, {});
-            cellsInGrid.push_back(cell);
+            cellsInGrid.emplace_back(i, nodesInCell, facesInCell);
+            Cell& cell = cellsInGrid.back();
 
             for (int j = 0; j < nNodesOfCell; j++) {
                 int k   = (j+1)%nNodesOfCell;
                 int jId = nodesInCell[j]->id_;
                 int kId = nodesInCell[k]->id_;
-                Node* nodeJ   = nodesInGrid[jId];
-                Node* nodeJp1 = nodesInGrid[kId];
+                Node* nodeJ   = &nodesInGrid[jId];
+                Node* nodeJp1 = &nodesInGrid[kId];
                 if (!visitedFaces[jId][kId] && !visitedFaces[kId][jId]) {
-                    Face* face = new Face(faceCount, nodeJ, nodeJp1);
-                    face->master_ = cell;
-                    facesInGrid.push_back(face);
-                    cell->faces_.push_back(face);
-                    visitedFaces[jId][kId] = face;
-                    visitedFaces[kId][jId] = face;
+                    facesInGrid.emplace_back(faceCount, nodeJ, nodeJp1);
+                    Face& face = facesInGrid.back();
+                    face.master_ = &cell;
+                    cell.faces_.push_back(&face);
+                    visitedFaces[jId][kId] = &face;
+                    visitedFaces[kId][jId] = &face;
                     faceCount++;
                 }
                 else {
-                    visitedFaces[jId][kId]->tool_ = cell;
-                    cell->faces_.push_back(visitedFaces[jId][kId]);
+                    visitedFaces[jId][kId]->tool_ = &cell;
+                    cell.faces_.push_back(visitedFaces[jId][kId]);
                 }
             }
         }
 
-        for (const auto& cell : cellsInGrid) {
-            cell->_setNeighbors();
+        for (auto& cell : cellsInGrid) {
+            cell._setNeighbors();
         }
 
-        for (const auto& face : facesInGrid) {
-            face->_setNormal();
+        for (auto& face : facesInGrid) {
+            face._setNormal();
         }
     }
 
@@ -83,27 +82,5 @@ namespace xyfd {
     template<typename T>
     Grid<T>::~Grid() {
         std::cout << "Deleting Grid Object ..." << std::endl;
-        for (auto& node : nodesInGrid) {
-            if (node) {
-                delete node;
-                node = nullptr;
-            }
-        }
-        nodesInGrid.clear();
-        for (auto& face : facesInGrid) {
-            if (face) {
-                delete face;
-                face = nullptr;
-            }
-        }
-        facesInGrid.clear();
-        for (auto& cell : cellsInGrid) {
-            if (cell) {
-                delete cell;
-                cell = nullptr;
-            }
-        }
-        cellsInGrid.clear();
-        std::cout << "All objects in Grid deleted !" << std::endl;
     }
 }

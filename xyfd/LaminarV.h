@@ -28,6 +28,7 @@ namespace xyfd {
         LaminarV& operator+=(const LaminarV &obj);
         LaminarV operator-(const LaminarV &obj) const;
         LaminarV& operator-=(const LaminarV &obj);
+        bool operator==(const LaminarV &obj) const;
         bool operator=(const LaminarV &obj);
         double operator*(const LaminarV &obj) const;
         friend std::ostream &operator<<(std::ostream &out, const LaminarV &obj);

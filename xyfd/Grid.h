@@ -1,6 +1,5 @@
 /**
  * Grid.h : xyfd class for representing a 2D unstructured grid.
- * (adjacency list implementation)
  * 
  * @author
  *   Xiasu Yang <xiasu.yang@sorbonne-universite.fr>
@@ -12,6 +11,7 @@
 #include "LaminarV.h"
 #include <vector>
 #include <array>
+#include <deque>
 
 using StdArray2d = std::array<double, 2>;
 
@@ -98,9 +98,9 @@ namespace xyfd {
             ~Cell();
         };
 
-        std::vector<Node*> nodesInGrid;
-        std::vector<Face*> facesInGrid;
-        std::vector<Cell*> cellsInGrid;
+        std::deque<Node> nodesInGrid;
+        std::deque<Face> facesInGrid;
+        std::deque<Cell> cellsInGrid;
 
         Grid(const Link& link);
         ~Grid();

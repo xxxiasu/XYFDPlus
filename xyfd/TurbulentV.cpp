@@ -13,24 +13,42 @@
 using StdArray2d = std::array<double, 2>;
 using StdArray4d = std::array<double, 4>;
 
-namespace xyfd {
-    TurbulentV::TurbulentV(double objR, double objP, double objT, double objE, StdArray2d objV, StdArray4d objRij, double objEps) :
-    LaminarV(objR, objP, objT, objE, objV), rij(objRij), eps(objEps) {}
+namespace xyfd
+{
+    TurbulentV::TurbulentV(
+        double objR,
+        double objP,
+        double objT,
+        double objE,
+        StdArray2d objV,
+        StdArray4d objRij,
+        double objEps)
+        : LaminarV(objR,
+                   objP,
+                   objT,
+                   objE,
+                   objV),
+          rij(objRij),
+          eps(objEps) {}
 
-    TurbulentV::TurbulentV(const TurbulentV& obj) :
-    LaminarV(obj), rij(obj.rij), eps(obj.eps) {}
+    TurbulentV::TurbulentV(const TurbulentV &obj)
+        : LaminarV(obj),
+          rij(obj.rij),
+          eps(obj.eps) {}
 
-    TurbulentV& TurbulentV::operator=(const TurbulentV& obj) {
+    TurbulentV &TurbulentV::operator=(const TurbulentV &obj)
+    {
         LaminarV::operator=(obj);
         rij[0] = obj.rij[0];
         rij[1] = obj.rij[1];
         rij[2] = obj.rij[2];
         rij[3] = obj.rij[3];
-        eps    = obj.eps;
+        eps = obj.eps;
         return *this;
     }
 
-    TurbulentV TurbulentV::operator+(const TurbulentV& obj) const {
+    TurbulentV TurbulentV::operator+(const TurbulentV &obj) const
+    {
         TurbulentV res;
         res.r = r + obj.r;
         res.p = p + obj.p;
@@ -42,21 +60,23 @@ namespace xyfd {
         res.rij[1] = rij[1] + obj.rij[1];
         res.rij[2] = rij[2] + obj.rij[2];
         res.rij[3] = rij[3] + obj.rij[3];
-        res.eps    = eps    + obj.eps;
+        res.eps = eps + obj.eps;
         return res;
     }
 
-    TurbulentV& TurbulentV::operator+=(const TurbulentV& obj) {
+    TurbulentV &TurbulentV::operator+=(const TurbulentV &obj)
+    {
         LaminarV::operator+=(obj);
         rij[0] += obj.rij[0];
         rij[1] += obj.rij[1];
         rij[2] += obj.rij[2];
         rij[3] += obj.rij[3];
-        eps    += obj.eps;
+        eps += obj.eps;
         return *this;
     }
 
-    TurbulentV TurbulentV::operator-(const TurbulentV& obj) const {
+    TurbulentV TurbulentV::operator-(const TurbulentV &obj) const
+    {
         TurbulentV res;
         res.r = r - obj.r;
         res.p = p - obj.p;
@@ -68,34 +88,38 @@ namespace xyfd {
         res.rij[1] = rij[1] - obj.rij[1];
         res.rij[2] = rij[2] - obj.rij[2];
         res.rij[3] = rij[3] - obj.rij[3];
-        res.eps    = eps    - obj.eps;
+        res.eps = eps - obj.eps;
         return res;
     }
 
-    TurbulentV& TurbulentV::operator-=(const TurbulentV& obj) {
+    TurbulentV &TurbulentV::operator-=(const TurbulentV &obj)
+    {
         LaminarV::operator-=(obj);
         rij[0] -= obj.rij[0];
         rij[1] -= obj.rij[1];
         rij[2] -= obj.rij[2];
         rij[3] -= obj.rij[3];
-        eps    -= obj.eps;
+        eps -= obj.eps;
         return *this;
     }
 
-    bool TurbulentV::operator==(const TurbulentV& obj) const {
+    bool TurbulentV::operator==(const TurbulentV &obj) const
+    {
         return LaminarV::operator==(obj) &&
                rij[0] == obj.rij[0] && rij[1] == obj.rij[1] && rij[2] == obj.rij[2] && rij[3] == obj.rij[3] && eps == obj.eps;
     }
 
-    bool TurbulentV::operator!=(const TurbulentV& obj) const {
+    bool TurbulentV::operator!=(const TurbulentV &obj) const
+    {
         return LaminarV::operator!=(obj) ||
                rij[0] != obj.rij[0] || rij[1] != obj.rij[1] || rij[2] != obj.rij[2] || rij[3] != obj.rij[3] || eps != obj.eps;
     }
 
-    std::ostream& TurbulentV::show(std::ostream& out) const {
+    std::ostream &TurbulentV::show(std::ostream &out) const
+    {
         out << "[ ";
         out << r << ", " << p << ", " << t << ", " << e << ", (" << v[0] << ", " << v[1] << ") , ("
             << rij[0] << ", " << rij[1] << ", " << rij[2] << ", " << rij[3] << "), " << eps << "]";
         return out;
     }
-}
+} // namespace xyfd

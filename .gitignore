@@ -1,5 +1,7 @@
 *.o
 *.d
+*out
 .objs/
+grids/*
 main.cpp
 main

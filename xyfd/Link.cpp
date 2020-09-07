@@ -107,14 +107,14 @@ namespace xyfd
                 }
                 else if (type == 2)  // 2 denotes triangular cell element
                 {
-                    int tag1, tag2, node1Id, node2Id, node3Id;
-                    gridFile >> tag1 >> tag2 >> node1Id >> node2Id >> node3Id;
+                    int bcType, tag2, node1Id, node2Id, node3Id;
+                    gridFile >> bcType >> tag2 >> node1Id >> node2Id >> node3Id;
                     nodeIdOfCells_.push_back({node1Id - 1, node2Id - 1, node3Id - 1});
                 }
                 else if (type == 3) // 3 denotes quadrilateral cell element
                 {
-                    int tag1, tag2, node1Id, node2Id, node3Id, node4Id;
-                    gridFile >> tag1 >> tag2 >> node1Id >> node2Id >> node3Id >> node4Id;
+                    int bcType, tag2, node1Id, node2Id, node3Id, node4Id;
+                    gridFile >> bcType >> tag2 >> node1Id >> node2Id >> node3Id >> node4Id;
                     nodeIdOfCells_.push_back({node1Id - 1, node2Id - 1, node3Id - 1, node4Id - 1});
                 }
             }

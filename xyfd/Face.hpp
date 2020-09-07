@@ -45,26 +45,18 @@ namespace xyfd {
         normal_ = {normal(0), normal(1)};
     }
 
-    // constructor without master cell :
+    // constructor without master & tool cells :
     template<typename T>
-    Grid<T>::Face::Face(int id, Grid<T>::Node* head, Grid<T>::Node* tail) {
-        id_ = id;
-        head_ = head;
-        tail_ = tail;
-        master_ = nullptr;
-        tool_ = nullptr;
+    Grid<T>::Face::Face(int id, Grid<T>::Node* head, Grid<T>::Node* tail) :
+    id_(id), head_(head), tail_(tail), master_(nullptr), tool_(nullptr) {
         _setLength();
         _setCenter();
     }
 
     // constructor with master & tool cells :
     template<typename T>
-    Grid<T>::Face::Face(int id, Grid<T>::Node* head, Grid<T>::Node* tail, Grid<T>::Cell* master, Grid<T>::Cell* tool) {
-        id_ = id;
-        head_ = head;
-        tail_ = tail;
-        master_ = master;
-        tool_ = tool;
+    Grid<T>::Face::Face(int id, Grid<T>::Node* head, Grid<T>::Node* tail, Grid<T>::Cell* master, Grid<T>::Cell* tool) :
+    id_(id), head_(head), tail_(tail), master_(master), tool_(tool) {
         _setLength();
         _setCenter();
     }

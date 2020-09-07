@@ -22,15 +22,17 @@ namespace xyfd {
         StdArray2d v;
 
         LaminarV(double objR = 0., double objP = 0., double objT = 0., double objE = 0., StdArray2d objV = {0., 0.});
-        LaminarV(const LaminarV &obj);
-        ~LaminarV() {}
-        LaminarV operator+(const LaminarV &obj) const;
-        LaminarV& operator+=(const LaminarV &obj);
-        LaminarV operator-(const LaminarV &obj) const;
-        LaminarV& operator-=(const LaminarV &obj);
-        bool operator==(const LaminarV &obj) const;
-        bool operator=(const LaminarV &obj);
-        double operator*(const LaminarV &obj) const;
-        friend std::ostream &operator<<(std::ostream &out, const LaminarV &obj);
+        LaminarV(const LaminarV& obj);
+        virtual ~LaminarV() {}
+        virtual LaminarV& operator=(const LaminarV& obj);
+        virtual LaminarV operator+(const LaminarV& obj) const;
+        virtual LaminarV& operator+=(const LaminarV& obj);
+        virtual LaminarV operator-(const LaminarV& obj) const;
+        virtual LaminarV& operator-=(const LaminarV& obj);
+        virtual bool operator==(const LaminarV& obj) const;
+        virtual bool operator!=(const LaminarV& obj) const;
+        virtual std::ostream& show(std::ostream& out) const;
+        
+        friend std::ostream& operator<<(std::ostream& out, const LaminarV& obj);
     };
 }

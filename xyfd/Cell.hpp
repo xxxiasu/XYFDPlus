@@ -55,10 +55,8 @@ namespace xyfd {
     }
 
     template<typename T>
-    Grid<T>::Cell::Cell(int id, std::vector<Grid<T>::Node*> nodes, std::vector<Grid<T>::Face*> faces) {
-        id_ = id;
-        nodes_ = nodes;
-        faces_ = faces;
+    Grid<T>::Cell::Cell(int id, std::vector<Grid<T>::Node*> nodes, std::vector<Grid<T>::Face*> faces) :
+    id_(id), nodes_(nodes), faces_(faces) {
         _setType();
         _setArea();
         _setCenter();
@@ -75,12 +73,12 @@ namespace xyfd {
     }
 
     template<typename T>
-    std::vector<typename Grid<T>::Node *> Grid<T>::Cell::getNodes() const {
+    std::vector<typename Grid<T>::Node*> Grid<T>::Cell::getNodes() const {
         return nodes_;
     }
 
     template<typename T>
-    std::vector<typename Grid<T>::Face *> Grid<T>::Cell::getFaces() const {
+    std::vector<typename Grid<T>::Face*> Grid<T>::Cell::getFaces() const {
         return faces_;
     }
 
@@ -95,7 +93,7 @@ namespace xyfd {
     }
 
     template<typename T>
-    std::vector<typename Grid<T>::Cell *> Grid<T>::Cell::getNeighbors() const {
+    std::vector<typename Grid<T>::Cell*> Grid<T>::Cell::getNeighbors() const {
         return neighbors_;
     }
 

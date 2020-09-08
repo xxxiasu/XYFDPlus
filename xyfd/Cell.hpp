@@ -65,7 +65,7 @@ namespace xyfd
         boundaryFaces_ = {};
         for (const auto &face : faces_)
         {
-            if (face->boundary_ != 0)
+            if (face->getBoundary() != 0)
                 boundaryFaces_.push_back(face);
         }
     }

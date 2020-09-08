@@ -23,6 +23,10 @@ using StdArray2d = std::array<double, 2>;
 //
 namespace xyfd
 {
+    //-Remark : try to use getter functions to access private
+    // members between Node, Face, Cell classes, and use
+    // direct access only in Grid member functions
+    //
     template <typename T>
     void Grid<T>::Cell::_setType()
     {
@@ -72,13 +76,13 @@ namespace xyfd
         neighbors_ = {};
         for (const auto &face : faces_)
         {
-            if (face->master_ == this && face->tool_)
+            if (face->getMaster() == this && face->getTool())
             {
-                neighbors_.push_back(face->tool_);
+                neighbors_.push_back(face->getTool());
             }
-            else if (face->tool_ == this && face->master_)
+            else if (face->getTool() == this && face->getMaster())
             {
-                neighbors_.push_back(face->master_);
+                neighbors_.push_back(face->getMaster());
             }
         }
     }

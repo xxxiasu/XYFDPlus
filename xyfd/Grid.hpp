@@ -54,7 +54,7 @@ namespace xyfd
             int nNodesOfCell = (int)link.getNodeIdOfCells()[i].size();
 
             //-Declaring vector of Node pointers to constituent Nodes
-            // note : doesn't need to use deque since we don't care 
+            // note : doesn't need to use deque since we don't care
             // about address changes for pointers
             std::vector<Node *> nodesInCell;
 
@@ -77,12 +77,12 @@ namespace xyfd
                 int jId = nodesInCell[j]->id_;
                 int kId = nodesInCell[k]->id_;
 
-                Node *nodeJ = &nodesInGrid[jId];
-                Node *nodeK = &nodesInGrid[kId];
-
                 //-IF -> Face object not yet constructed :
                 if (!visitedFaces[jId][kId] && !visitedFaces[kId][jId])
                 {
+                    Node *nodeJ = &nodesInGrid[jId];
+                    Node *nodeK = &nodesInGrid[kId];
+
                     facesInGrid.emplace_back(faceCount, nodeJ, nodeK);
                     //-Declaring a reference to the most recently emplaced Cell object
                     Face &face = facesInGrid.back();

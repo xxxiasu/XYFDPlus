@@ -23,6 +23,10 @@ using StdArray2d = std::array<double, 2>;
 //
 namespace xyfd
 {
+    //-Remark : try to use getter functions to access private
+    // members between Node, Face, Cell classes, and use
+    // direct access only in Grid member functions
+    //
     template <typename T>
     Grid<T>::Node::Node(
         int id,

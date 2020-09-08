@@ -1,5 +1,5 @@
 EXE = main
-OBJS = main.o \
+OBJS = local_main.o \
        xyfd/Link.o \
 	   xyfd/LaminarV.o \
 	   xyfd/TurbulentV.o \

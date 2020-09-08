@@ -23,9 +23,17 @@ namespace xyfd
     class Link
     {
     private:
+        //-2D Cartesian coordinates of all Nodes in a Grid
         vector<StdArray2d> xOfNodes_;
+
+        //-Node IDs of all Cells in a Grid (in (counter)clock-wise order)
         vector<vector<int>> nodeIdOfCells_;
+
+        //-Arrays of boundary Face info :
+        // {boundary condition type ID, head Node ID, tail Node ID}
         vector<StdArray3i> boundaryFaces_;
+
+        //-Integer to String hash table to link BC type IDs to BC names
         IntStrMap bcs_;
 
     public:

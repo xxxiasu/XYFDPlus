@@ -2,6 +2,5 @@
 *.d
 *out
 .objs/
-grids/*
-main.cpp
+local_main.cpp
 main

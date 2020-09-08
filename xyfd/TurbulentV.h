@@ -19,7 +19,9 @@ namespace xyfd
     class TurbulentV : public LaminarV
     {
     public:
+        //-2D vector of Reynolds stresses (m^2.s^-2)
         StdArray4d rij;
+        //-Dissipation of turbulent kinetic energy (m^2.s^-3)
         double eps;
 
         TurbulentV(

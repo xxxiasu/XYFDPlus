@@ -17,10 +17,15 @@ namespace xyfd
     class LaminarV
     {
     public:
+        //-Density (kg.m^-3)
         double r;
+        //-Static pressure (Pa)
         double p;
+        //-Temperature (K)
         double t;
+        //-Specific total energy (m^2.s^-2)
         double e;
+        //-2D velocity vector (m.s^-1)
         StdArray2d v;
 
         LaminarV(

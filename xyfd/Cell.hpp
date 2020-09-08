@@ -13,6 +13,8 @@
 
 using StdArray2d = std::array<double, 2>;
 
+//-More comments in Grid.h
+//
 namespace xyfd
 {
     template <typename T>

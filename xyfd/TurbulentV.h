@@ -24,6 +24,9 @@ namespace xyfd
         //-Dissipation of turbulent kinetic energy (m^2.s^-3)
         double eps;
 
+        //-Custom constructor :
+        // based on user input, default set to 0
+        //
         TurbulentV(
             double objR = 0.,
             double objP = 0.,
@@ -33,16 +36,40 @@ namespace xyfd
             StdArray4d objRij = {0., 0., 0., 0.},
             double objEps = 0.);
 
+        //-Copy constructor :
+        //
         TurbulentV(const TurbulentV &obj);
 
+        //-Destructor :
+        //
         ~TurbulentV() {}
+
+        //
+        //-Operator overloading :
+        // All operators declared here are virtual in LaminarV.h
+        // to allow polymorphism
+        //----------------------------------------------------------v
+        //
+
+        //-Assignment operator :
+        // chaining enabled
+        //
         TurbulentV &operator=(const TurbulentV &obj);
+
         TurbulentV operator+(const TurbulentV &obj) const;
         TurbulentV &operator+=(const TurbulentV &obj);
         TurbulentV operator-(const TurbulentV &obj) const;
         TurbulentV &operator-=(const TurbulentV &obj);
         bool operator==(const TurbulentV &obj) const;
         bool operator!=(const TurbulentV &obj) const;
+
+        //
+        //----------------------------------------------------------^
+        //
+
+        //-To be used inside friend operator<< declared in
+        // LaminarV.h
+        //
         std::ostream &show(std::ostream &out) const;
     };
 } // namespace xyfd

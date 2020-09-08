@@ -108,20 +108,41 @@ namespace xyfd
     bool TurbulentV::operator==(const TurbulentV &obj) const
     {
         return LaminarV::operator==(obj) &&
-               rij[0] == obj.rij[0] && rij[1] == obj.rij[1] && rij[2] == obj.rij[2] && rij[3] == obj.rij[3] && eps == obj.eps;
+               rij[0] == obj.rij[0] &&
+               rij[1] == obj.rij[1] &&
+               rij[2] == obj.rij[2] &&
+               rij[3] == obj.rij[3] &&
+               eps == obj.eps;
     }
 
     bool TurbulentV::operator!=(const TurbulentV &obj) const
     {
         return LaminarV::operator!=(obj) ||
-               rij[0] != obj.rij[0] || rij[1] != obj.rij[1] || rij[2] != obj.rij[2] || rij[3] != obj.rij[3] || eps != obj.eps;
+               rij[0] != obj.rij[0] ||
+               rij[1] != obj.rij[1] ||
+               rij[2] != obj.rij[2] ||
+               rij[3] != obj.rij[3] ||
+               eps != obj.eps;
     }
 
     std::ostream &TurbulentV::show(std::ostream &out) const
     {
         out << "[ ";
-        out << r << ", " << p << ", " << t << ", " << e << ", (" << v[0] << ", " << v[1] << ") , ("
-            << rij[0] << ", " << rij[1] << ", " << rij[2] << ", " << rij[3] << "), " << eps << "]";
+        out << r << ", "
+            << p << ", "
+            << t << ", "
+            << e << ", "
+            << "("
+            << v[0] << ", "
+            << v[1]
+            << "), ("
+            << rij[0] << ", "
+            << rij[1] << ", "
+            << rij[2] << ", "
+            << rij[3]
+            << "), "
+            << eps
+            << "]";
         return out;
     }
 } // namespace xyfd

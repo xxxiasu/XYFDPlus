@@ -20,6 +20,8 @@ using IntStrMap = std::unordered_map<int, std::string>;
 
 namespace xyfd
 {
+    //-Grid is declared as a template class since it contains
+    // inner class Cell which has a generic member var
     template <typename T>
     class Grid
     {
@@ -180,8 +182,8 @@ namespace xyfd
             void _setNeighbors();
 
         public:
-            //-template type :
-            // cell-average variable
+            //-Generic class member :
+            // cell-averaged variable which can take various types
             // ex. LaminarV, TurbulentV, or c++ built-in types
             T var;
 
@@ -210,7 +212,7 @@ namespace xyfd
 
         //
         //-Every objects created during Grid manipulation is either
-        // a pointer or a reference to the 3 following members :
+        // a pointer or a reference to element(s) of the 3 following members :
         // nodesInGrid, facesInGrid, cellsInGrid 
         //----------------------------------------------------------v
         //

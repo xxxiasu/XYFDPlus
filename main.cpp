@@ -52,8 +52,10 @@ int main()
 
      try
      {
-          //-Enter grid name and remove whitespaces :
+          //-The following line doesn't go into output file if ./main>out is used
           std::cerr << "Enter .msh file name (without extension) :" << endl;
+
+          //-Enter grid name and remove whitespaces
           std::string gridName;
           std::getline(cin, gridName);
           gridName.erase(remove(gridName.begin(), gridName.end(), ' '), gridName.end());
@@ -75,11 +77,13 @@ int main()
                for (auto &cell : myGrid.cellsInGrid)
                {
                     cout << "cell Id = " << cell.getId() << " -----------------------------------" << endl;
+                    //-Check if operators work fine
                     // cell.var = 1.;
                     // cell.var = {1., 1., 1., 1., {1., 1.}};
                     cell.var = {1., 1., 1., 1., {1., 1.}, {1., 1., 1., 1.}, 1.};
                     if (cell.var != myVar)
                          cell.var += myVar;
+
                     for (const auto &face : cell.getFaces())
                     {
                          cout << "face Id = " << face->getId()

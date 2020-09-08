@@ -22,6 +22,8 @@ namespace xyfd
         double objT,
         double objE,
         StdArray2d objV)
+    //-Remark : use member initializer list when possible
+    // to limit parameter copying
         : r(objR),
           p(objP),
           t(objT),
@@ -94,18 +96,35 @@ namespace xyfd
 
     bool LaminarV::operator==(const LaminarV &obj) const
     {
-        return r == obj.r && p == obj.p && t == obj.t && e == obj.e && v[0] == obj.v[0] && v[1] == obj.v[1];
+        return r == obj.r &&
+               p == obj.p &&
+               t == obj.t &&
+               e == obj.e &&
+               v[0] == obj.v[0] &&
+               v[1] == obj.v[1];
     }
 
     bool LaminarV::operator!=(const LaminarV &obj) const
     {
-        return r != obj.r || p != obj.p || t != obj.t || e != obj.e || v[0] != obj.v[0] || v[1] != obj.v[1];
+        return r != obj.r ||
+               p != obj.p ||
+               t != obj.t ||
+               e != obj.e ||
+               v[0] != obj.v[0] ||
+               v[1] != obj.v[1];
     }
 
     std::ostream &LaminarV::show(std::ostream &out) const
     {
         out << "[ ";
-        out << r << ", " << p << ", " << t << ", " << e << ", (" << v[0] << ", " << v[1] << ") "
+        out << r << ", "
+            << p << ", "
+            << t << ", "
+            << e << ", "
+            << "("
+            << v[0] << ", "
+            << v[1]
+            << ") "
             << "]";
         return out;
     }
@@ -114,6 +133,7 @@ namespace xyfd
         std::ostream &out,
         const LaminarV &obj)
     {
+        //-Return type of show() is std::ostream &
         return obj.show(out);
     }
 } // namespace xyfd

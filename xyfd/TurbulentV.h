@@ -6,16 +6,26 @@
  */
 
 #pragma once
+
+/*------------------------------------------------------------------*\
+    Dependencies
+\*------------------------------------------------------------------*/
 #include "LaminarV.h"
 #include <iostream>
 #include <vector>
 #include <array>
 
+/*------------------------------------------------------------------*\
+    Aliases
+\*------------------------------------------------------------------*/
 using StdArray2d = std::array<double, 2>;
 using StdArray4d = std::array<double, 4>;
 
 namespace xyfd
 {
+    /*------------------------------------------------------------------*\
+        Class declaration : xyfd::TurbulentV : public LaminarV
+    \*------------------------------------------------------------------*/
     class TurbulentV : public LaminarV
     {
     public:

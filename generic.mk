@@ -36,10 +36,10 @@ endif
 WARNINGS = -pedantic -Wall $(WARNINGS_AS_ERRORS) -Wfatal-errors -Wextra $(EXCLUSIVE_WARNING_OPTIONS)
 
 # Flags for compile:
-CXXFLAGS += -std=c++14 -O0 $(WARNINGS) $(DEPFILE_FLAGS) -g -c $(ASANFLAGS)
+CXXFLAGS += -std=c++17 -O0 $(WARNINGS) $(DEPFILE_FLAGS) -g -c $(ASANFLAGS)
 
 # Flags for linking:
-LDFLAGS += -std=c++14 $(ASANFLAGS)
+LDFLAGS += -std=c++17 $(ASANFLAGS)
 
 # Rule for `all` (first/default rule):
 all: $(EXE)

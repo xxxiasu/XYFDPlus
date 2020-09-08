@@ -8,24 +8,28 @@
  *   Xiasu Yang <xiasu.yang@sorbonne-universite.fr>
  */
 
+/*------------------------------------------------------------------*\
+    Dependencies
+\*------------------------------------------------------------------*/
 #include "xyfd/Grid.h"
-#include <vector>
-#include <unordered_map>
-#include <cmath>
-#include <memory>
+#include "xyfd/LaminarV.h"
+#include "xyfd/TurbulentV.h"
 #include <iostream>
+#include <vector>
+#include <array>
+#include <unordered_map>
 #include <algorithm>
 
+/*------------------------------------------------------------------*\
+    Aliases
+\*------------------------------------------------------------------*/
 using std::cin;
 using std::cout;
 using std::endl;
-using xyfd::Grid;
-using xyfd::LaminarV;
-using xyfd::Link;
-using xyfd::TurbulentV;
 using StdArray2d = std::array<double, 2>;
 using IntVec = std::vector<int>;
 using IntStrMap = std::unordered_map<int, std::string>;
+using namespace xyfd;
 
 int main()
 {

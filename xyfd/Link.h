@@ -7,19 +7,28 @@
 
 #pragma once
 
+/*------------------------------------------------------------------*\
+    Dependencies
+\*------------------------------------------------------------------*/
 #include <iostream>
 #include <vector>
 #include <array>
 #include <unordered_map>
 
+/*------------------------------------------------------------------*\
+    Aliases
+\*------------------------------------------------------------------*/
 using std::string;
 using std::vector;
 using StdArray2d = std::array<double, 2>;
 using StdArray3i = std::array<int, 3>;
-using IntStrMap  = std::unordered_map<int, string>;
+using IntStrMap = std::unordered_map<int, string>;
 
 namespace xyfd
 {
+    /*------------------------------------------------------------------*\
+        Class declaration : xyfd::Link
+    \*------------------------------------------------------------------*/
     class Link
     {
     private:

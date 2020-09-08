@@ -5,13 +5,22 @@
  *   Xiasu Yang <xiasu.yang@sorbonne-universite.fr>
  */
 
+/*------------------------------------------------------------------*\
+    Dependencies
+\*------------------------------------------------------------------*/
 #include "Grid.h"
 #include <iostream>
 #include <vector>
 #include <array>
 #include <cmath>
+
+//-Eigen imported for vector/matrix computation in
+// _setNormal()
 #include <Eigen/Dense>
 
+/*------------------------------------------------------------------*\
+    Aliases
+\*------------------------------------------------------------------*/
 using StdArray2d = std::array<double, 2>;
 using namespace Eigen;
 

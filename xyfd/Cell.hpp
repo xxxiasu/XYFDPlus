@@ -5,12 +5,18 @@
  *   Xiasu Yang <xiasu.yang@sorbonne-universite.fr>
  */
 
+/*------------------------------------------------------------------*\
+    Dependencies
+\*------------------------------------------------------------------*/
 #include "Grid.h"
 #include <iostream>
 #include <vector>
 #include <array>
 #include <cmath>
 
+/*------------------------------------------------------------------*\
+    Aliases
+\*------------------------------------------------------------------*/
 using StdArray2d = std::array<double, 2>;
 
 //-More comments in Grid.h

@@ -5,11 +5,17 @@
  *   Xiasu Yang <xiasu.yang@sorbonne-universite.fr>
  */
 
+/*------------------------------------------------------------------*\
+    Dependencies
+\*------------------------------------------------------------------*/
 #include "LaminarV.h"
 #include <iostream>
 #include <vector>
 #include <array>
 
+/*------------------------------------------------------------------*\
+    Aliases
+\*------------------------------------------------------------------*/
 using StdArray2d = std::array<double, 2>;
 
 //-More comments in LaminarV.h

@@ -5,6 +5,9 @@
  *   Xiasu Yang <xiasu.yang@sorbonne-universite.fr>
  */
 
+/*------------------------------------------------------------------*\
+    Dependencies
+\*------------------------------------------------------------------*/
 #include "Link.h"
 #include <iostream>
 #include <fstream>
@@ -12,6 +15,9 @@
 #include <array>
 #include <unordered_map>
 
+/*------------------------------------------------------------------*\
+    Aliases
+\*------------------------------------------------------------------*/
 using std::string;
 using std::vector;
 using IntStrMap = std::unordered_map<int, string>;

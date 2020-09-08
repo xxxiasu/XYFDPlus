@@ -7,19 +7,27 @@
 
 #pragma once
 
+/*------------------------------------------------------------------*\
+    Dependencies
+\*------------------------------------------------------------------*/
 #include "Link.h"
-#include "LaminarV.h"
-#include "TurbulentV.h"
+#include <iostream>
 #include <vector>
 #include <array>
 #include <deque>
 #include <unordered_map>
 
+/*------------------------------------------------------------------*\
+    Aliases
+\*------------------------------------------------------------------*/
 using StdArray2d = std::array<double, 2>;
 using IntStrMap = std::unordered_map<int, std::string>;
 
 namespace xyfd
 {
+    /*------------------------------------------------------------------*\
+        Class declaration : xyfd::Grid
+    \*------------------------------------------------------------------*/
     //-Grid is declared as a template class since it contains
     // inner class Cell which has a generic member var
     template <typename T>
@@ -38,6 +46,10 @@ namespace xyfd
         void _setFacesCellsInGrid(const Link &link);
 
     public:
+
+        /*------------------------------------------------------------------*\
+            Class declaration : xyfd::Grid::Node
+        \*------------------------------------------------------------------*/
         class Node
         {
             friend class Grid;
@@ -73,6 +85,10 @@ namespace xyfd
         //-Forward declaration of Cell class
         // used in Face class
         class Cell;
+
+        /*------------------------------------------------------------------*\
+            Class declaration : xyfd::Grid::Face
+        \*------------------------------------------------------------------*/
         class Face
         {
             friend class Grid;
@@ -146,6 +162,10 @@ namespace xyfd
             //
             ~Face();
         };
+
+        /*------------------------------------------------------------------*\
+            Class declaration : xyfd::Grid::Cell
+        \*------------------------------------------------------------------*/
         class Cell
         {
             friend class Grid;
@@ -211,7 +231,7 @@ namespace xyfd
         };
 
         //
-        //-Every objects created during Grid manipulation is either
+        //-Every object created during Grid manipulation is either
         // a pointer or a reference to element(s) of the 3 following members :
         // nodesInGrid, facesInGrid, cellsInGrid 
         //----------------------------------------------------------v

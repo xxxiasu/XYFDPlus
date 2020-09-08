@@ -5,9 +5,14 @@
  *   Xiasu Yang <xiasu.yang@sorbonne-universite.fr>
  */
 
+/*------------------------------------------------------------------*\
+    Dependencies
+\*------------------------------------------------------------------*/
 #include "Grid.h"
 #include <iostream>
 #include <vector>
+#include <array>
+#include <deque>
 #include <cmath>
 
 //-More comments in Grid.h

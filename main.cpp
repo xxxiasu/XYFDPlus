@@ -9,6 +9,12 @@
  */
 
 /*------------------------------------------------------------------*\
+    Conditional compilation parameter
+\*------------------------------------------------------------------*/
+//-Comment out the line below to create Link object from manual input
+#define LOAD
+
+/*------------------------------------------------------------------*\
     Dependencies
 \*------------------------------------------------------------------*/
 #include "xyfd/Grid.h"
@@ -26,36 +32,22 @@
 using std::cin;
 using std::cout;
 using std::endl;
+#ifndef LOAD
 using StdArray2d = std::array<double, 2>;
+using StdArray3i = std::array<int, 3>;
 using IntVec = std::vector<int>;
 using IntStrMap = std::unordered_map<int, std::string>;
+#endif
 using namespace xyfd;
 
 int main()
 {
-     /* Manually constructing Link object :
-
-     //-xOfNodes :
-     StdArray2d x0 = {0., 0.};
-     StdArray2d x1 = {1., 0.};
-     StdArray2d x2 = {1., 1.};
-     StdArray2d x3 = {0., 1.};
-     std::vector<StdArray2d> xOfNodes = {x0, x1, x2, x3};
-
-     //-nodeIdOfCells :
-     IntVec c0 = {3, 0, 1};
-     IntVec c1 = {1, 2, 3};
-     std::vector<IntVec> nodeIdOfCells = {c0, c1};
-
-     //-boundaryFaces :
-     std::vector<StdArray3d> boundaryFaces = {{1, 0, 1}, {1, 3, 0}, {2, 1, 2}};
-     IntStrMap bcs = {{1, "Dirichlet"}, {2, "Neumann"}};
-
-     Link myLink(xOfNodes, nodeIdOfCells, boundaryFaces, bcs);
-     */
 
      try
      {
+
+#ifdef LOAD // Loading Link object from .msh file :
+
           //-The following line doesn't go into output file if ./main>out is used
           std::cerr << "Enter .msh file name (without extension) :" << endl;
 
@@ -66,6 +58,28 @@ int main()
 
           //-Construct Link object from .msh file
           Link myLink(gridName);
+
+#else // Manually constructing Link object :
+
+          //-xOfNodes :
+          StdArray2d x0 = {0., 0.};
+          StdArray2d x1 = {1., 0.};
+          StdArray2d x2 = {1., 1.};
+          StdArray2d x3 = {0., 1.};
+          std::vector<StdArray2d> xOfNodes = {x0, x1, x2, x3};
+
+          //-nodeIdOfCells :
+          IntVec c0 = {3, 0, 1};
+          IntVec c1 = {1, 2, 3};
+          std::vector<IntVec> nodeIdOfCells = {c0, c1};
+
+          //-boundaryFaces :
+          std::vector<StdArray3i> boundaryFaces = {{1, 0, 1}, {1, 3, 0}, {2, 1, 2}};
+          IntStrMap bcs = {{1, "Dirichlet"}, {2, "Neumann"}};
+
+          Link myLink(xOfNodes, nodeIdOfCells, boundaryFaces, bcs);
+
+#endif
 
           //-Grid object is supposed to exist only inside this scope :
           {

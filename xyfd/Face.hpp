@@ -26,12 +26,12 @@ using namespace Eigen;
 
 //-More comments in Grid.h
 //
+// Remark : try to use getter functions to access private
+// members between Node, Face, Cell classes, and use
+// direct access only in Grid member functions
+//
 namespace xyfd
 {
-    //-Remark : try to use getter functions to access private
-    // members between Node, Face, Cell classes, and use
-    // direct access only in Grid member functions
-    //
     template <typename T>
     void Grid<T>::Face::_setLength()
     {
@@ -53,7 +53,7 @@ namespace xyfd
         Vector2d normal;
         Matrix2d rotate;
         rotate << 0., -1.,
-                  1., 0.;
+            1., 0.;
         directMasterThis(0) = center_[0] - master_->getCenter()[0];
         directMasterThis(1) = center_[1] - master_->getCenter()[1];
         directHeadTail(0) = tail_->getX()[0] - head_->getX()[0];

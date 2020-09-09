@@ -9,4 +9,4 @@ OBJS = local_main.o \
 	   xyfd/Grid.o
 CLEAN_RM =
 
-include generic.mk
+include make/generic.mk

@@ -7,7 +7,7 @@
 #
 # @author Wade Fagen-Ulmschneider, <waf@illinois.edu>
 # @author Jeffrey Tolar
-# @author Xiasu Yang (edits made for XYFD++ code)
+# @author Xiasu Yang (edits made for XYFDPlus project)
 #
 
 

@@ -7,6 +7,6 @@ OBJS = local_main.o \
 	   xyfd/Face.o \
 	   xyfd/Cell.o \
 	   xyfd/Grid.o
-CLEAN_RM =
+CLEAN_RM = *out
 
 include make/generic.mk

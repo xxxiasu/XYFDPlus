@@ -52,9 +52,6 @@ all: $(EXE)
 ifdef LIB
 $(EXE): $(patsubst %.o, $(OBJS_DIR)/%.o, $(OBJS)) $(LIBS_DIR)/$(LIB)
 	$(LD) $(LDFLAGS) -o $@ $(OBJS_DIR)/$(MAIN) -L$(LIBS_DIR) $(patsubst lib%.a, -l%, $(LIB))
-	@mkdir -p $(LIBS_DIR)/Headers
-	@cp $(SRC_DIR)/*h* $(LIBS_DIR)/Headers
-	@echo $(LIBS_DIR)/Headers/ folder created, to be exported with the static library in $(LIBS_DIR)
 else
 $(EXE): $(patsubst %.o, $(OBJS_DIR)/%.o, $(OBJS))
 	$(LD) $^ $(LDFLAGS) -o $@
@@ -77,17 +74,22 @@ endif
 $(OBJS_DIR)/%.o: %.cpp | $(OBJS_DIR)
 	$(CXX) $(CXXFLAGS) $< -o $@
 
-# Rule for building static library lib$(SRC_DIR).a.
+# Rule for building static library lib$(SRC_DIR).a in $(LIBS_DIR) folder.
 # - Every object file in $(SRC_DIR)/ folder required by $(EXE)
+# - make a Headers folder containing all header files in $(SRC_DIR)
 ifdef LIB
 $(LIBS_DIR)/$(LIB): $(patsubst %.o, $(OBJS_DIR)/%.o, $(filter $(SRC_DIR)/%, $(OBJS))) | $(LIBS_DIR)
 	ar rcs $@ $^
+	@mkdir -p $(LIBS_DIR)/Headers
+	@cp $(SRC_DIR)/*h* $(LIBS_DIR)/Headers
+	@echo $(LIBS_DIR)/Headers/ folder created, to be exported with the static library in $(LIBS_DIR)
 endif
 
 # Additional dependencies for object files are included in the clang++
 # generated .d files (from $(DEPFILE_FLAGS)):
 -include $(OBJS_DIR)/*.d
 -include $(OBJS_DIR)/$(SRC_DIR)/*.d
+
 
 # Standard C++ Makefile rules:
 clean:

@@ -1,6 +1,6 @@
 # specify the name of executable
 EXE  = main
-# specify the name of driver file object (recommended : local_main.o)
+# specify the name of driver object file (recommended : local_main.o)
 MAIN = local_main.o
 # specify the folder where xyfd namespace is contained
 SRC_DIR = xyfd

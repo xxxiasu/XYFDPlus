@@ -2,8 +2,11 @@
 # This is a generic Makefile designed to compile a sample directory of code.
 # This file depends on variables having been set before calling:
 #   EXE: The name of the result file
+#   MAIN: Driver object file (.o) to be generated
+#   SRC_DIR: Source files directory
 #   OBJS: Array of objects files (.o) to be generated
 #   CLEAN_RM: Optional list of additional files to delete on `make clean`
+#   LIB: Static library (lib*.a) to be generated (optional)
 #
 # @author Wade Fagen-Ulmschneider, <waf@illinois.edu>
 # @author Jeffrey Tolar
@@ -15,6 +18,8 @@
 CXX = g++
 LD  = g++
 OBJS_DIR = .objs
+
+# Library directory:
 LIBS_DIR = .libs
 
 # -MMD and -MP asks clang++ to generate a .d file listing the headers used in the source code for use in the Make process.

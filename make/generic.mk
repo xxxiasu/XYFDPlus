@@ -15,6 +15,7 @@
 CXX = g++
 LD  = g++
 OBJS_DIR = .objs
+LIBS_DIR = .libs
 
 # -MMD and -MP asks clang++ to generate a .d file listing the headers used in the source code for use in the Make process.
 #   -MMD: "Write a depfile containing user headers"
@@ -46,14 +47,29 @@ all: $(EXE)
 
 # Rule for linking the final executable:
 # - $(EXE) depends on all object files in $(OBJS)
-# - `patsubst` function adds the directory name $(OBJS_DIR) before every object file
+# - ifndef LIB : `patsubst` function adds the directory name $(OBJS_DIR) before every object file
+# - ifdef  LIB : $(EXE) depends on the static library lib$(LIB).a
+ifdef LIB
+$(EXE): $(patsubst %.o, $(OBJS_DIR)/%.o, $(OBJS)) $(LIBS_DIR)/$(LIB)
+	$(LD) $(LDFLAGS) -o $@ $(OBJS_DIR)/$(MAIN) -L$(LIBS_DIR) $(patsubst lib%.a, -l%, $(LIB))
+	@mkdir -p $(LIBS_DIR)/Headers
+	@cp $(SRC_DIR)/*h* $(LIBS_DIR)/Headers
+	@echo $(LIBS_DIR)/Headers/ folder created, to be exported with the static library in $(LIBS_DIR)
+else
 $(EXE): $(patsubst %.o, $(OBJS_DIR)/%.o, $(OBJS))
 	$(LD) $^ $(LDFLAGS) -o $@
+endif
 
 # Ensure .objs/ exists:
 $(OBJS_DIR):
 	@mkdir -p $(OBJS_DIR)
-	@mkdir -p $(OBJS_DIR)/xyfd
+	@mkdir -p $(OBJS_DIR)/$(SRC_DIR)
+
+# Ensure .libs/ exists:
+ifdef LIB
+$(LIBS_DIR):
+	@mkdir -p $(LIBS_DIR)
+endif
 
 # Rules for compiling source code.
 # - Every object file is required by $(EXE)
@@ -61,15 +77,21 @@ $(OBJS_DIR):
 $(OBJS_DIR)/%.o: %.cpp | $(OBJS_DIR)
 	$(CXX) $(CXXFLAGS) $< -o $@
 
+# Rule for building static library lib$(SRC_DIR).a.
+# - Every object file in $(SRC_DIR)/ folder required by $(EXE)
+ifdef LIB
+$(LIBS_DIR)/$(LIB): $(patsubst %.o, $(OBJS_DIR)/%.o, $(filter $(SRC_DIR)/%, $(OBJS))) | $(LIBS_DIR)
+	ar rcs $@ $^
+endif
+
 # Additional dependencies for object files are included in the clang++
 # generated .d files (from $(DEPFILE_FLAGS)):
 -include $(OBJS_DIR)/*.d
--include $(OBJS_DIR)/xyfd/*.d
-
+-include $(OBJS_DIR)/$(SRC_DIR)/*.d
 
 # Standard C++ Makefile rules:
 clean:
-	rm -rf $(EXE) $(TEST) $(OBJS_DIR) $(CLEAN_RM) *.o *.d
+	rm -rf $(EXE) $(TEST) $(OBJS_DIR) $(LIBS_DIR) $(CLEAN_RM) *.o *.d *.a
 
 tidy: clean
 	rm -rf doc

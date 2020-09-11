@@ -9,7 +9,7 @@ OBJS = $(MAIN) $(patsubst %.cpp, %.o, $(wildcard $(SRC_DIR)/*.cpp))
 # specify the name of static library if needed (recommended : libxyfd.a)
 LIB  =
 
-# add multiple executable if needed
+# add multiple executables if needed
 T_EXE  = test
 T_MAIN = local_test.o
 T_SRC_DIR = xyfd

@@ -166,4 +166,4 @@ clean:
 tidy: clean
 	rm -rf doc
 
-.PHONY: all tidy clean
+.PHONY: all tidy clean headers

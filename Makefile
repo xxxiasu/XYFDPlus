@@ -1,23 +1,23 @@
-# specify the name of executable
+# Specify the name of executable
 EXE  = main
-# specify the name of driver object file (recommended : local_main.o)
+# Specify the name of driver object file (recommended : local_main.o)
 MAIN = local_main.o
-# specify the folder where xyfd namespace is contained
+# Specify the folder where ALL depending source files is contained
 SRC_DIR = xyfd
-# list of all object files
+# List of all object files, append after $(MAIN)
 OBJS = $(MAIN) $(patsubst %.cpp, %.o, $(wildcard $(SRC_DIR)/*.cpp))
-# specify the name of static library if needed (recommended : libxyfd.a)
+# Specify the name of static library if needed (recommended : libxyfd.a)
 LIB  =
 
-# add multiple executables if needed
-# this test example uses only LaminarV and TurbulentV types
+# Add multiple executables if needed
+# This test example uses only LaminarV and TurbulentV types
 T_EXE  = test
 T_MAIN = local_test.o
 T_SRC_DIR = xyfd
 T_OBJS = $(T_MAIN) $(patsubst %.cpp, %.o, $(wildcard $(T_SRC_DIR)/*V.cpp))
 T_LIB  =
 
-# additional files to clean up
+# Additional files to clean up
 CLEAN_RM = *out
 
 include make/generic.mk

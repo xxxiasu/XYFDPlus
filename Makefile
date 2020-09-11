@@ -10,6 +10,7 @@ OBJS = $(MAIN) $(patsubst %.cpp, %.o, $(wildcard $(SRC_DIR)/*.cpp))
 LIB  =
 
 # add multiple executables if needed
+# this test example uses only LaminarV and TurbulentV types
 T_EXE  = test
 T_MAIN = local_test.o
 T_SRC_DIR = xyfd

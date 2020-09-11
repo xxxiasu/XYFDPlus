@@ -4,8 +4,11 @@
     // For more information, visit: https://go.microsoft.com/fwlink/?linkid=830387
     "version": "0.2.0",
     "configurations": [
+
+        // Main program debugger ------------------------------- :
+        //
         {
-            "name": "g++ - Build and debug main",
+            "name": "buildAndDebugMain",
             "type": "cppdbg",
             "request": "launch",
             "program": "${workspaceFolder}/main",
@@ -22,7 +25,31 @@
                     "ignoreFailures": true
                 }
             ],
-            "preLaunchTask": "buildAll",
+            "preLaunchTask": "buildMain",
+            "miDebuggerPath": "/usr/bin/gdb"
+        },
+
+        // Test program debugger ------------------------------- :
+        //
+        {
+            "name": "buildAndDebugTest",
+            "type": "cppdbg",
+            "request": "launch",
+            "program": "${workspaceFolder}/test",
+            "args": [],
+            "stopAtEntry": false,
+            "cwd": "${workspaceFolder}",
+            "environment": [],
+            "externalConsole": false,
+            "MIMode": "gdb",
+            "setupCommands": [
+                {
+                    "description": "Enable pretty-printing for gdb",
+                    "text": "-enable-pretty-printing",
+                    "ignoreFailures": true
+                }
+            ],
+            "preLaunchTask": "buildTest",
             "miDebuggerPath": "/usr/bin/gdb"
         }
     ]

@@ -22,6 +22,10 @@ OBJS_DIR = .objs
 # Library directory:
 LIBS_DIR = .libs
 
+# Colorful text:
+GREEN = \033[0;32m
+NC = \033[0m # No Color
+
 # -MMD and -MP asks clang++ to generate a .d file listing the headers used in the source code for use in the Make process.
 #   -MMD: "Write a depfile containing user headers"
 #   -MP : "Create phony target for each dependency (other than main file)"
@@ -55,31 +59,47 @@ all: $(EXE) $(T_EXE)
 # - ifndef LIB : `patsubst` function adds the directory name $(OBJS_DIR) before every object file
 # - ifdef  LIB : $(EXE) depends on the static library lib$(LIB).a
 ifdef LIB
-$(EXE): $(patsubst %.o, $(OBJS_DIR)/%.o, $(OBJS)) $(LIBS_DIR)/$(LIB)
-	$(LD) $(LDFLAGS) -o $@ $(OBJS_DIR)/$(MAIN) -L$(LIBS_DIR) $(patsubst lib%.a, -l%, $(LIB))
+$(EXE): $(LIBS_DIR)/$(LIB)
 	@echo
-	@echo $(EXE) program made with success ! Static library $(LIBS_DIR)/$(LIB) generated.
+	@echo Linking executable $(EXE) against static library $(LIBS_DIR)/$(LIB) ...
+	$(LD) $(LDFLAGS) -o $@ $(OBJS_DIR)/$(MAIN) -L$(LIBS_DIR) $(patsubst lib%.a, -l%, $(LIB))
+	@echo $(EXE) executable linked with success !
+	@echo
+	@echo "$(GREEN)============================== $(EXE) SUCCESSFULLY BUILT ==============================$(NC)"
+	@echo
 	@echo
 else
 $(EXE): $(patsubst %.o, $(OBJS_DIR)/%.o, $(OBJS))
-	$(LD) $^ $(LDFLAGS) -o $@
 	@echo
-	@echo $(EXE) program made with success !
+	@echo Linking executable $(EXE) ...
+	$(LD) $^ $(LDFLAGS) -o $@
+	@echo $(EXE) executable linked with success !
+	@echo
+	@echo "$(GREEN)============================== $(EXE) SUCCESSFULLY BUILT ==============================$(NC)"
+	@echo
 	@echo
 endif
 
 # Same rule for other executables if multiple present:
 ifdef T_LIB
-$(T_EXE): $(patsubst %.o, $(OBJS_DIR)/%.o, $(T_OBJS)) $(LIBS_DIR)/$(T_LIB)
-	$(LD) $(LDFLAGS) -o $@ $(OBJS_DIR)/$(T_MAIN) -L$(LIBS_DIR) $(patsubst lib%.a, -l%, $(T_LIB))
+$(T_EXE): $(LIBS_DIR)/$(T_LIB)
 	@echo
-	@echo $(T_EXE) program made with success ! Static library $(LIBS_DIR)/$(T_LIB) generated.
+	@echo Linking executable $(T_EXE) against static library $(LIBS_DIR)/$(T_LIB) ...
+	$(LD) $(LDFLAGS) -o $@ $(OBJS_DIR)/$(T_MAIN) -L$(LIBS_DIR) $(patsubst lib%.a, -l%, $(T_LIB))
+	@echo $(T_EXE) executable linked with success !
+	@echo
+	@echo "$(GREEN)============================== $(T_EXE) SUCCESSFULLY BUILT ==============================$(NC)"
+	@echo
 	@echo
 else
 $(T_EXE): $(patsubst %.o, $(OBJS_DIR)/%.o, $(T_OBJS))
-	$(LD) $^ $(LDFLAGS) -o $@
 	@echo
-	@echo $(T_EXE) program made with success !
+	@echo Linking executable $(T_EXE) ...
+	$(LD) $^ $(LDFLAGS) -o $@
+	@echo $(T_EXE) executable linked with success !
+	@echo
+	@echo "$(GREEN)============================== $(T_EXE) SUCCESSFULLY BUILT ==============================$(NC)"
+	@echo
 	@echo
 endif
 
@@ -108,14 +128,22 @@ $(OBJS_DIR)/%.o: %.cpp | $(OBJS_DIR)
 # - Every object file in $(SRC_DIR)/ folder required by $(EXE)
 # - make a Headers folder containing all header files in $(SRC_DIR)
 ifdef LIB
-$(LIBS_DIR)/$(LIB): $(patsubst %.o, $(OBJS_DIR)/%.o, $(filter $(SRC_DIR)/%, $(OBJS))) | $(LIBS_DIR)
-	ar rcs $@ $^
+$(LIBS_DIR)/$(LIB): $(patsubst %.o, $(OBJS_DIR)/%.o, $(OBJS)) | $(LIBS_DIR)
+	@echo
+	@echo Packing static library $(LIBS_DIR)/$(LIB) ...
+	ar rcs $@ $(patsubst %.o, $(OBJS_DIR)/%.o, $(filter $(SRC_DIR)/%, $(OBJS)))
+	@echo $(LIBS_DIR)/$(LIB) library packed with success !
+	@echo
 endif
 
 # Same rule for other executables if multiple present:
 ifdef T_LIB
-$(LIBS_DIR)/$(T_LIB): $(patsubst %.o, $(OBJS_DIR)/%.o, $(filter $(T_SRC_DIR)/%, $(T_OBJS))) | $(LIBS_DIR)
-	ar rcs $@ $^
+$(LIBS_DIR)/$(T_LIB): $(patsubst %.o, $(OBJS_DIR)/%.o, $(T_OBJS)) | $(LIBS_DIR)
+	@echo
+	@echo Packing static library $(LIBS_DIR)/$(T_LIB) ...
+	ar rcs $@ $(patsubst %.o, $(OBJS_DIR)/%.o, $(filter $(T_SRC_DIR)/%, $(T_OBJS)))
+	@echo $(LIBS_DIR)/$(T_LIB) library packed with success !
+	@echo
 endif
 
 headers:

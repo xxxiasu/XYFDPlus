@@ -24,7 +24,11 @@ cd path/to/XYFDPlus/
 ```
 cp main.cpp local_main.cpp
 ```
-3. build project using
+3. make a copy of test.cpp and name it local_test.cpp :
+```
+cp test.cpp local_test.cpp
+```
+4. build project using
   - terminal : 
   ```
   make
@@ -33,7 +37,7 @@ cp main.cpp local_main.cpp
   ```
   Ctrl+Shift+B
   ```
-4. clean-up :
+5. clean-up :
 ```
 make clean
 ```

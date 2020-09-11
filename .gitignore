@@ -5,4 +5,6 @@
 .objs/
 .libs/
 local_main.cpp
+local_test.cpp
 main
+test

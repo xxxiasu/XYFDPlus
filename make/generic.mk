@@ -38,36 +38,33 @@ define success_msg
 endef
 
 # link final executable
-#-$(1): $(EXE)
 define link
 	@echo
-	@echo Linking executable $(1) ...
+	@echo Linking executable $@ ...
 	$(LD) $^ $(LDFLAGS) -o $@
-	@echo $(1) executable linked with success !
-	$(call success_msg,$(1))
+	@echo $@ executable linked with success !
+	$(call success_msg,$@)
 endef
 
 # link final executable against static library
-#-$(1): $(EXE)
-#-$(2): $(LIB)
-#-$(3): $(MAIN)
+#-$(1): $(LIB)
+#-$(2): $(MAIN)
 define link_lib
 	@echo
-	@echo Linking executable $(1) against static library $(LIBS_DIR)/$(2) ...
-	$(LD) $(LDFLAGS) -o $@ $(OBJS_DIR)/$(3) -L$(LIBS_DIR) -l$(patsubst lib%.a,%,$(2))
-	@echo $(1) executable linked with success !
-	$(call success_msg,$(1))
+	@echo Linking executable $@ against static library $(LIBS_DIR)/$(1) ...
+	$(LD) $(LDFLAGS) -o $@ $(OBJS_DIR)/$(2) -L$(LIBS_DIR) -l$(patsubst lib%.a,%,$(1))
+	@echo $@ executable linked with success !
+	$(call success_msg,$@)
 endef
 
 # pack static library
-#-$(1): $(LIB)
-#-$(2): $(SRC_DIR)
-#-$(3): $(OBJS)
+#-$(1): $(SRC_DIR)
+#-$(2): $(OBJS)
 define pack_lib
 	@echo
-	@echo Packing static library $(LIBS_DIR)/$(1) ...
-	ar rcs $@ $(patsubst %.o,$(OBJS_DIR)/%.o,$(filter $(2)/%,$(3)))
-	@echo $(LIBS_DIR)/$(1) library packed with success !
+	@echo Packing static library $@ ...
+	ar rcs $@ $(patsubst %.o,$(OBJS_DIR)/%.o,$(filter $(1)/%,$(2)))
+	@echo $@ library packed with success !
 	@echo
 endef
 
@@ -105,19 +102,19 @@ all: $(EXE) $(T_EXE)
 # - ifdef  LIB : $(EXE) depends on the static library lib$(LIB).a
 ifdef LIB
 $(EXE): $(LIBS_DIR)/$(LIB)
-	$(call link_lib,$(EXE),$(LIB),$(MAIN))
+	$(call link_lib,$(LIB),$(MAIN))
 else
 $(EXE): $(patsubst %.o,$(OBJS_DIR)/%.o,$(OBJS))
-	$(call link,$(EXE))
+	$(call link)
 endif
 
 # Same rule for other executables if multiple present:
 ifdef T_LIB
 $(T_EXE): $(LIBS_DIR)/$(T_LIB)
-	$(call link_lib,$(T_EXE),$(T_LIB),$(T_MAIN))
+	$(call link_lib,$(T_LIB),$(T_MAIN))
 else
 $(T_EXE): $(patsubst %.o,$(OBJS_DIR)/%.o,$(T_OBJS))
-	$(call link,$(T_EXE))
+	$(call link)
 endif
 
 # Ensure .objs/ exists:
@@ -146,13 +143,13 @@ $(OBJS_DIR)/%.o: %.cpp | $(OBJS_DIR)
 # - make a Headers folder containing all header files in $(SRC_DIR)
 ifdef LIB
 $(LIBS_DIR)/$(LIB): $(patsubst %.o,$(OBJS_DIR)/%.o,$(OBJS)) | $(LIBS_DIR)
-	$(call pack_lib,$(LIB),$(SRC_DIR),$(OBJS))
+	$(call pack_lib,$(SRC_DIR),$(OBJS))
 endif
 
 # Same rule for other executables if multiple present:
 ifdef T_LIB
 $(LIBS_DIR)/$(T_LIB): $(patsubst %.o,$(OBJS_DIR)/%.o,$(T_OBJS)) | $(LIBS_DIR)
-	$(call pack_lib,$(T_LIB),$(T_SRC_DIR),$(T_OBJS))
+	$(call pack_lib,$(T_SRC_DIR),$(T_OBJS))
 endif
 
 headers:

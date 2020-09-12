@@ -7,7 +7,7 @@ SRC_DIR = xyfd
 # List of all object files, append after $(MAIN)
 OBJS = $(MAIN) $(patsubst %.cpp, %.o, $(wildcard $(SRC_DIR)/*.cpp))
 # Specify the name of static library if needed (recommended : libxyfd.a)
-LIB  =
+LIB  = liba.a
 
 # Add multiple executables if needed
 # This test example uses only LaminarV and TurbulentV types
@@ -15,7 +15,7 @@ T_EXE  = test
 T_MAIN = local_test.o
 T_SRC_DIR = xyfd
 T_OBJS = $(T_MAIN) $(patsubst %.cpp, %.o, $(wildcard $(T_SRC_DIR)/*V.cpp))
-T_LIB  =
+T_LIB  = libb.a
 
 # Additional files to clean up
 CLEAN_RM = *out

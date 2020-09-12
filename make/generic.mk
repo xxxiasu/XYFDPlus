@@ -41,7 +41,7 @@ endef
 define link
 	@echo
 	@echo Linking executable $@ ...
-	$(LD) $^ $(LDFLAGS) -o $@
+	$(LD) $(LDFLAGS) -o $@ $^
 	@echo $@ executable linked with success !
 	$(call success_msg,$@)
 endef

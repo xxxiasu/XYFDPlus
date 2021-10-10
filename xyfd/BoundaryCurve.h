@@ -10,6 +10,7 @@
 /*------------------------------------------------------------------*\
     Dependencies
 \*------------------------------------------------------------------*/
+#include "GaussLegendreQuad.h"
 #include <iostream>
 #include <vector>
 #include <array>
@@ -26,10 +27,13 @@ namespace xyfd
     \*------------------------------------------------------------------*/
     class BoundaryCurve
     {
-    public:
+    private:
         //-Boundary ID
-        int bcId;
+        int bcId_;
 
+        //-Parameter range [t0, t1]
+        StdArray2d tRange_;
+    public:
         //-Parametric function POINTER
         StdArray2d (*paramFuncPtr) (double);
 
@@ -39,8 +43,9 @@ namespace xyfd
         //-Custom constructor :
         //
         BoundaryCurve(
-            //-Boundary is Dirichlet type by default
+            //-Boundary is interior type by default
             int objBcId,
+            StdArray2d objTRange,
             StdArray2d (*objParamFuncPtr) (double),
             /*equivalently : StdArray2d (objParamFuncPtr) (double). objParamFuncPtr is converted to function pointer automatically*/
             StdArray2d (*objParamDFuncPtr) (double));
@@ -59,5 +64,18 @@ namespace xyfd
         // chaining enabled
         //
         BoundaryCurve &operator=(const BoundaryCurve &obj);
+
+        //-Get private members :
+        //
+        int getBcId() const;
+        StdArray2d getTRange() const;
+
+        //-Compute curve length :
+        //
+        double length(double order) const;
+
+        //-Compute line integral of function func(x,y) :
+        //
+        double lineInt(double order, double (*func) (StdArray2d)) const;
     };
 } // namespace xyfd

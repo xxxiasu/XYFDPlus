@@ -1,5 +1,5 @@
 /**
- * BoundaryCurve.cpp : xyfd class for representing parametric curve associated with boundary.
+ * PCurve.cpp : xyfd class for representing parametric curve.
  * 
  * @author
  *   Xiasu Yang <xiasu.yang@sorbonne-universite.fr>
@@ -9,7 +9,7 @@
     Dependencies
 \*------------------------------------------------------------------*/
 #include "GaussLegendreQuad.h"
-#include "BoundaryCurve.h"
+#include "PCurve.h"
 #include <iostream>
 #include <vector>
 #include <array>
@@ -19,59 +19,50 @@
 \*------------------------------------------------------------------*/
 using StdArray2d = std::array<double, 2>;
 
-//-More comments in BoundaryCurve.h
+//-More comments in PCurve.h
 //
 namespace xyfd
 {
-    BoundaryCurve::BoundaryCurve(
-        int objBcId,
+    PCurve::PCurve(
         StdArray2d objTRange,
         StdArray2d (*objParamFuncPtr) (double),
         /*equivalently : StdArray2d (objParamFuncPtr) (double). objParamFuncPtr is converted to function pointer automatically*/
-        StdArray2d (*objParamDFuncPtr) (double))
-        /*equivalently : StdArray2d (objParamDFuncPtr) (double). objParamDFuncPtr is converted to function pointer automatically*/
+        StdArray2d (*objParamTangentPtr) (double))
+        /*equivalently : StdArray2d (objParamTangentPtr) (double). objParamTangentPtr is converted to function pointer automatically*/
 
     //-Remark : use member initializer list when possible
     // to limit parameter copying
-        : bcId_(objBcId),
-          tRange_(objTRange),
+        : tRange_(objTRange),
           paramFuncPtr(objParamFuncPtr),
-          paramDFuncPtr(objParamDFuncPtr) {}
+          paramTangentPtr(objParamTangentPtr) {}
 
-    BoundaryCurve::BoundaryCurve(const BoundaryCurve &obj)
-        : bcId_(obj.bcId_),
-          tRange_(obj.tRange_),
+    PCurve::PCurve(const PCurve &obj)
+        : tRange_(obj.tRange_),
           paramFuncPtr(obj.paramFuncPtr),
-          paramDFuncPtr(obj.paramDFuncPtr) {}
+          paramTangentPtr(obj.paramTangentPtr) {}
 
-    BoundaryCurve &BoundaryCurve::operator=(const BoundaryCurve &obj)
+    PCurve &PCurve::operator=(const PCurve &obj)
     {
-        bcId_ = obj.bcId_;
         tRange_ = obj.tRange_;
         paramFuncPtr = obj.paramFuncPtr;
-        paramDFuncPtr = obj.paramDFuncPtr;
+        paramTangentPtr = obj.paramTangentPtr;
         return *this;
     }
 
     //-Get private members :
     //
-    int BoundaryCurve::getBcId() const
-    {
-        return bcId_;
-    }
-
-    StdArray2d BoundaryCurve::getTRange() const
+    StdArray2d PCurve::getTRange() const
     {
         return tRange_;
     }
 
     //-Compute curve length :
     //
-    double BoundaryCurve::length(double order) const
+    double PCurve::length(double order) const
     {
         GaussLegendreQuad quadRule(order);
         int nGps;
-        double t, w, length = 0.;
+        double t, w, len = 0.;
 
         nGps = quadRule.getX().size();
 
@@ -79,16 +70,17 @@ namespace xyfd
         {
             t = (tRange_[0] + tRange_[1])/2. + quadRule.getX()[i]*(tRange_[1] - tRange_[0])/2.;
             w = quadRule.getW()[i];
-            length += w*sqrt(pow(paramDFuncPtr(t)[0], 2.) + pow(paramDFuncPtr(t)[1], 2.));
+            len += w*sqrt(pow(paramTangentPtr(t)[0], 2.)
+                        + pow(paramTangentPtr(t)[1], 2.));
         }
-        length *= (tRange_[1] - tRange_[0])/2.;
+        len *= (tRange_[1] - tRange_[0])/2.;
 
-        return length;
+        return len;
     }
 
     //-Compute line integral of function func(x,y) :
     //
-    double BoundaryCurve::lineInt(double order, double (*func) (StdArray2d)) const
+    double PCurve::lineInt(double order, double (*func) (StdArray2d)) const
     {
         GaussLegendreQuad quadRule(order);
         int nGps;
@@ -102,7 +94,8 @@ namespace xyfd
             t = (tRange_[0] + tRange_[1])/2. + quadRule.getX()[i]*(tRange_[1] - tRange_[0])/2.;
             loc = paramFuncPtr(t);
             w = quadRule.getW()[i];
-            integral += w*func(loc)*sqrt(pow(paramDFuncPtr(t)[0], 2.) + pow(paramDFuncPtr(t)[1], 2.));
+            integral += w*func(loc)*sqrt(pow(paramTangentPtr(t)[0], 2.)
+                                       + pow(paramTangentPtr(t)[1], 2.));
         }
         integral *= (tRange_[1] - tRange_[0])/2.;
 

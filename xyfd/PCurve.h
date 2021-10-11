@@ -1,5 +1,5 @@
 /**
- * BoundaryCurve.h : xyfd class for representing parametric curve associated with boundary.
+ * PCurve.h : xyfd class for representing parametric curve.
  * 
  * @author
  *   Xiasu Yang <xiasu.yang@sorbonne-universite.fr>
@@ -23,51 +23,45 @@ using StdArray2d = std::array<double, 2>;
 namespace xyfd
 {
     /*------------------------------------------------------------------*\
-        Class declaration : xyfd::BoundaryCurve
+        Class declaration : xyfd::PCurve
     \*------------------------------------------------------------------*/
-    class BoundaryCurve
+    class PCurve
     {
     private:
-        //-Boundary ID
-        int bcId_;
-
         //-Parameter range [t0, t1]
         StdArray2d tRange_;
     public:
         //-Parametric function POINTER
         StdArray2d (*paramFuncPtr) (double);
 
-        //-First derivative of parametric function POINTER
-        StdArray2d (*paramDFuncPtr) (double);
+        //-Tangent of parametric function POINTER
+        StdArray2d (*paramTangentPtr) (double);
 
         //-Custom constructor :
         //
-        BoundaryCurve(
-            //-Boundary is interior type by default
-            int objBcId,
+        PCurve(
             StdArray2d objTRange,
             StdArray2d (*objParamFuncPtr) (double),
             /*equivalently : StdArray2d (objParamFuncPtr) (double). objParamFuncPtr is converted to function pointer automatically*/
-            StdArray2d (*objParamDFuncPtr) (double));
-            /*equivalently : StdArray2d (objParamDFuncPtr) (double). objParamDFuncPtr is converted to function pointer automatically*/
+            StdArray2d (*objParamTangentPtr) (double));
+            /*equivalently : StdArray2d (objParamTangentPtr) (double). objParamTangentPtr is converted to function pointer automatically*/
 
         //-Copy constructor :
         //
-        BoundaryCurve(const BoundaryCurve &obj);
+        PCurve(const PCurve &obj);
 
         //-Destructor :
         //
-        ~BoundaryCurve() {}
+        ~PCurve() {}
 
 
         //-Assignment operator :
         // chaining enabled
         //
-        BoundaryCurve &operator=(const BoundaryCurve &obj);
+        PCurve &operator=(const PCurve &obj);
 
         //-Get private members :
         //
-        int getBcId() const;
         StdArray2d getTRange() const;
 
         //-Compute curve length :

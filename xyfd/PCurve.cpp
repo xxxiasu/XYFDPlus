@@ -13,11 +13,13 @@
 #include <iostream>
 #include <vector>
 #include <array>
+#include <functional>
 
 /*------------------------------------------------------------------*\
     Aliases
 \*------------------------------------------------------------------*/
 using StdArray2d = std::array<double, 2>;
+using VectorFunc = std::function<StdArray2d(double)>;
 
 //-More comments in PCurve.h
 //
@@ -25,27 +27,29 @@ namespace xyfd
 {
     PCurve::PCurve(
         StdArray2d objTRange,
-        StdArray2d (*objParamFuncPtr) (double),
+        // StdArray2d (*objParamFuncPtr) (double),
         /*equivalently : StdArray2d (objParamFuncPtr) (double). objParamFuncPtr is converted to function pointer automatically*/
-        StdArray2d (*objParamTangentPtr) (double))
+        VectorFunc objParamFunc,
+        // StdArray2d (*objParamTangentPtr) (double))
         /*equivalently : StdArray2d (objParamTangentPtr) (double). objParamTangentPtr is converted to function pointer automatically*/
+        VectorFunc objParamTangent)
 
     //-Remark : use member initializer list when possible
     // to limit parameter copying
         : tRange_(objTRange),
-          paramFuncPtr(objParamFuncPtr),
-          paramTangentPtr(objParamTangentPtr) {}
+          paramFunc(objParamFunc),
+          paramTangent(objParamTangent) {}
 
     PCurve::PCurve(const PCurve &obj)
         : tRange_(obj.tRange_),
-          paramFuncPtr(obj.paramFuncPtr),
-          paramTangentPtr(obj.paramTangentPtr) {}
+          paramFunc(obj.paramFunc),
+          paramTangent(obj.paramTangent) {}
 
     PCurve &PCurve::operator=(const PCurve &obj)
     {
         tRange_ = obj.tRange_;
-        paramFuncPtr = obj.paramFuncPtr;
-        paramTangentPtr = obj.paramTangentPtr;
+        paramFunc = obj.paramFunc;
+        paramTangent = obj.paramTangent;
         return *this;
     }
 
@@ -70,8 +74,8 @@ namespace xyfd
         {
             t = (tRange_[0] + tRange_[1])/2. + quadRule.getX()[i]*(tRange_[1] - tRange_[0])/2.;
             w = quadRule.getW()[i];
-            len += w*sqrt(pow(paramTangentPtr(t)[0], 2.)
-                        + pow(paramTangentPtr(t)[1], 2.));
+            len += w*sqrt(pow(paramTangent(t)[0], 2.)
+                        + pow(paramTangent(t)[1], 2.));
         }
         len *= (tRange_[1] - tRange_[0])/2.;
 
@@ -92,10 +96,10 @@ namespace xyfd
         for (int i = 0; i < nGps; ++i)
         {
             t = (tRange_[0] + tRange_[1])/2. + quadRule.getX()[i]*(tRange_[1] - tRange_[0])/2.;
-            loc = paramFuncPtr(t);
+            loc = paramFunc(t);
             w = quadRule.getW()[i];
-            integral += w*func(loc)*sqrt(pow(paramTangentPtr(t)[0], 2.)
-                                       + pow(paramTangentPtr(t)[1], 2.));
+            integral += w*func(loc)*sqrt(pow(paramTangent(t)[0], 2.)
+                                       + pow(paramTangent(t)[1], 2.));
         }
         integral *= (tRange_[1] - tRange_[0])/2.;
 

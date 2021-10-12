@@ -14,15 +14,10 @@
 #include <array>
 #include <cmath>
 
-//-Eigen imported for vector/matrix computation in
-// _setNormal()
-#include <Eigen/Dense>
-
 /*------------------------------------------------------------------*\
     Aliases
 \*------------------------------------------------------------------*/
 using StdArray2d = std::array<double, 2>;
-using namespace Eigen;
 
 //-More comments in Grid.h
 //
@@ -35,34 +30,50 @@ namespace xyfd
     template <typename T>
     void Grid<T>::Face::_setLength()
     {
-        length_ = head_->getDistanceTo(*tail_);
+        if (curve_.isLinear())
+        {
+            length_ = head_->getDistanceTo(*tail_);
+        }
+        else
+        {
+            //-24 is the highest order available for Gauss-Legendre rule
+            length_ = curve_.length(24);
+        }
     }
 
+    //-Center is the parametric center at tMid
+    // used for BOTH linear and curved faces
+    //
     template <typename T>
     void Grid<T>::Face::_setCenter()
     {
-        center_[0] = 0.5 * (head_->getX()[0] + tail_->getX()[0]);
-        center_[1] = 0.5 * (head_->getX()[1] + tail_->getX()[1]);
+        double tMid = 0.5*(curve_.getTRange()[0] + curve_.getTRange()[1]);
+        center_ = curve_.paramFunc(tMid);
     }
 
+    //-Normal vector evaluated at parametric center tMid
+    // we get outward-pointing normals if nodes are indexed counter-clockwise
+    // used for BOTH linear and curved faces
+    //
     template <typename T>
     void Grid<T>::Face::_setNormal()
     {
-        Vector2d directMasterThis;
-        Vector2d directHeadTail;
-        Vector2d normal;
-        Matrix2d rotate;
-        rotate << 0., -1.,
-            1., 0.;
-        directMasterThis(0) = center_[0] - master_->getCenter()[0];
-        directMasterThis(1) = center_[1] - master_->getCenter()[1];
-        directHeadTail(0) = tail_->getX()[0] - head_->getX()[0];
-        directHeadTail(1) = tail_->getX()[1] - head_->getX()[1];
-        directHeadTail /= length_;
-        normal = rotate * directHeadTail;
-        if (normal.dot(directMasterThis) < 0)
-            normal *= -1.;
-        normal_ = {normal(0), normal(1)};
+        double tMid, norm;
+        bool reverse;
+        //-Vector pointing from master->this (face-center)
+        StdArray2d directMasterThis;
+
+        directMasterThis[0] = center_[0] - master_->getCenter()[0];
+        directMasterThis[1] = center_[1] - master_->getCenter()[1];
+        tMid = 0.5*(curve_.getTRange()[0] + curve_.getTRange()[1]);
+        normal_ = curve_.paramNormal(tMid);
+        norm = sqrt(pow(normal_[0], 2) + pow(normal_[1], 2));
+        normal_[0] /= norm;
+        normal_[1] /= norm;
+
+        //-Reverse normal if the angle formed with master->this vector > Pi/2
+        reverse = (directMasterThis[0]*normal_[0] + directMasterThis[1]*normal_[1]) < 0;
+        if (reverse) normal_ = {-normal_[0], -normal_[1]};
     }
 
     template <typename T>
@@ -75,7 +86,15 @@ namespace xyfd
           head_(head),
           tail_(tail),
           master_(nullptr),
-          tool_(nullptr)
+          tool_(nullptr),
+          //-By default, PCurve associated with Face is the line segment
+          // between head_ and tail_, parameter 0 <= t <= 1
+          curve_(PCurve({0., 1.},
+                        true,
+                        [head, tail] (double t) -> StdArray2d {return {head->getX()[0] + (tail->getX()[0] - head->getX()[0])*t,
+                                                                       head->getX()[1] + (tail->getX()[1] - head->getX()[1])*t};},
+                        [head, tail] (double t) -> StdArray2d {return {           0.*t + (tail->getX()[0] - head->getX()[0]),
+                                                                                  0.*t + (tail->getX()[1] - head->getX()[1])};}))
     {
         _setLength();
         _setCenter();
@@ -87,13 +106,15 @@ namespace xyfd
         Grid<T>::Node *head,
         Grid<T>::Node *tail,
         Grid<T>::Cell *master,
-        Grid<T>::Cell *tool)
+        Grid<T>::Cell *tool,
+        PCurve curve)
         : id_(id),
           boundary_(0),
           head_(head),
           tail_(tail),
           master_(master),
-          tool_(tool)
+          tool_(tool),
+          curve_(curve)
     {
         _setLength();
         _setCenter();
@@ -133,6 +154,12 @@ namespace xyfd
     typename Grid<T>::Cell *Grid<T>::Face::getTool() const
     {
         return tool_;
+    }
+
+    template <typename T>
+    PCurve Grid<T>::Face::getCurve() const
+    {
+        return curve_;
     }
 
     template <typename T>

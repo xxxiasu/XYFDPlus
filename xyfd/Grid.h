@@ -11,6 +11,7 @@
     Dependencies
 \*------------------------------------------------------------------*/
 #include "Link.h"
+#include "PCurve.h"
 #include <iostream>
 #include <vector>
 #include <array>
@@ -115,6 +116,9 @@ namespace xyfd
             //-Tool cell pointer to object in Grid::cellsInGrid
             Cell *tool_;
 
+            //-Associated parametric curve
+            PCurve curve_;
+
             //-Euclidean distance between head and tail Nodes
             double length_;
 
@@ -146,7 +150,8 @@ namespace xyfd
                 Node *head,
                 Node *tail,
                 Cell *master,
-                Cell *tool);
+                Cell *tool,
+                PCurve curve);
 
             int getId() const;
             int getBoundary() const;
@@ -154,6 +159,7 @@ namespace xyfd
             Node *getTail() const;
             Cell *getMaster() const;
             Cell *getTool() const;
+            PCurve getCurve() const;
             double getLength() const;
             StdArray2d getCenter() const;
             StdArray2d getNormal() const;

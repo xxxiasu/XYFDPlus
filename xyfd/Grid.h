@@ -164,6 +164,11 @@ namespace xyfd
             StdArray2d getCenter() const;
             StdArray2d getNormal() const;
 
+            //-Compute line integral of R2ToRFunc
+            // call lineInt method of PCurve class
+            //
+            double lineInt(int order, R2ToRFunc func) const;
+
             //-Destructor
             //
             ~Face();

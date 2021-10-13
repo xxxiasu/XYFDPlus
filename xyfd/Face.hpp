@@ -91,10 +91,12 @@ namespace xyfd
           // between head_ and tail_, parameter 0 <= t <= 1
           curve_(PCurve({0., 1.},
                         true,
-                        [head, tail] (double t) -> StdArray2d {return {head->getX()[0] + (tail->getX()[0] - head->getX()[0])*t,
-                                                                       head->getX()[1] + (tail->getX()[1] - head->getX()[1])*t};},
-                        [head, tail] (double t) -> StdArray2d {return {           0.*t + (tail->getX()[0] - head->getX()[0]),
-                                                                                  0.*t + (tail->getX()[1] - head->getX()[1])};}))
+                        [head, tail] (double t) -> StdArray2d
+                        {return {head->getX()[0] + (tail->getX()[0] - head->getX()[0])*t,
+                                 head->getX()[1] + (tail->getX()[1] - head->getX()[1])*t};},
+                        [head, tail] (double t) -> StdArray2d
+                        {return {           0.*t + (tail->getX()[0] - head->getX()[0]),
+                                            0.*t + (tail->getX()[1] - head->getX()[1])};}))
     {
         _setLength();
         _setCenter();
@@ -178,6 +180,12 @@ namespace xyfd
     StdArray2d Grid<T>::Face::getNormal() const
     {
         return normal_;
+    }
+
+    template <typename T>
+    double Grid<T>::Face::lineInt(int order, R2ToRFunc func) const
+    {
+        return curve_.lineInt(order, func);
     }
 
     template <typename T>

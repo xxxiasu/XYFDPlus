@@ -88,7 +88,7 @@ namespace xyfd
 
         nGps = quadRule.getX().size();
 
-        for (int i = 0; i < nGps; ++i)
+        for (int i = 0; i < nGps; i++)
         {
             t = (tRange_[0] + tRange_[1])/2. + quadRule.getX()[i]*abs(tRange_[1] - tRange_[0])/2.;
             w = quadRule.getW()[i];
@@ -111,7 +111,7 @@ namespace xyfd
 
         nGps = quadRule.getX().size();
 
-        for (int i = 0; i < nGps; ++i)
+        for (int i = 0; i < nGps; i++)
         {
             t = (tRange_[0] + tRange_[1])/2. + quadRule.getX()[i]*abs(tRange_[1] - tRange_[0])/2.;
             loc = paramFunc(t);
